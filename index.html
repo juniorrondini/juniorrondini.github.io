@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#e9e7e1" />
+    <meta
+      name="description"
+      content="Junior Rondini — desenvolvimento full stack, sistemas, interfaces e experimentos. Construindo sistemas. Explorando possibilidades."
+    />
+    <meta property="og:title" content="Junior Rondini — Full Stack Developer" />
+    <meta
+      property="og:description"
+      content="Construindo sistemas. Explorando possibilidades. Projetos e experimentos de Junior Rondini."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://juniorrondini.github.io/" />
+    <meta
+      property="og:image"
+      content="https://juniorrondini.github.io/social.png"
+    />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="canonical" href="https://juniorrondini.github.io/" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="preload"
+      href="/node_modules/@fontsource-variable/big-shoulders-display/files/big-shoulders-display-latin-wght-normal.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <title>Junior Rondini — Full Stack Developer</title>
+    <script>
+      try {
+        const theme = localStorage.getItem("jr-theme");
+        document.documentElement.dataset.theme =
+          theme === "light" || theme === "dark"
+            ? theme
+            : matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.lang =
+          localStorage.getItem("jr-lang") === "en" ? "en" : "pt-BR";
+      } catch {
+        document.documentElement.dataset.theme = matchMedia(
+          "(prefers-color-scheme: dark)",
+        ).matches
+          ? "dark"
+          : "light";
+      }
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript
+      ><main style="padding: 8vw; font: 20px system-ui">
+        <h1>Junior Rondini</h1>
+        <p>Full Stack Developer. Interfaces, APIs, sistemas e automação.</p>
+        <p>
+          <a href="https://github.com/juniorrondini">Projetos no GitHub</a> ·
+          <a href="mailto:jjrondinijj@gmail.com">Contato</a>
+        </p>
+        <p>Ative JavaScript para explorar o portfólio interativo.</p>
+      </main></noscript
+    >
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
