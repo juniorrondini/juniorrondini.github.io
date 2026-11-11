@@ -1,19 +1,19 @@
-# Junior Rondini — portfólio imersivo
+# Junior Rondini — portfólio
 
-Portfólio pessoal bilíngue, com identidade JR original, galeria de projetos e experimentos. Construído com React, TypeScript, Vite, GSAP/ScrollTrigger, Three.js e Lucide. Aplicação estática, sem backend ou credenciais no cliente.
+Portfólio bilíngue com tipografia cinética, prévias reais de interfaces e uma galeria interativa. A identidade usa preto e roxo no tema escuro, bege e lilás no claro. As cores dos projetos são preservadas.
 
 **Site:** https://juniorrondini.github.io/
 
-## Executar e validar
+## Executar e verificar
 
-Use **Node.js 24** (mínimo 22.12) e npm.
+Node.js 24 (mínimo 22.12) e npm:
 
 ```sh
 npm ci
 npm run dev
 ```
 
-O Vite mostra o endereço local. Para validar a mesma versão que o GitHub publica:
+Para verificar a versão de produção:
 
 ```sh
 npm run lint
@@ -23,69 +23,60 @@ npm run build
 npm run preview
 ```
 
-`build` também verifica os tipos. `dist/` é o único diretório publicado. O projeto não usa serviços de hospedagem intermediários.
+O build verifica os tipos e produz uma aplicação estática em `dist/`.
 
-## Organização e manutenção
+## Experiência
 
-| Arquivo                             | Responsabilidade                                                      |
+- **Hero:** entrada letra por letra, movimento da tipografia e da prévia associado à rolagem no desktop, profundidade em resposta ao cursor e alternância entre interfaces reais. Os controles permitem selecionar e pausar as prévias. A alternância para fora da tela, em aba inativa, durante a leitura de um diálogo e quando o sistema solicita movimento reduzido.
+- **Projetos:** índice de nomes com seleção por cursor, foco ou clique. Uma única prévia compacta mostra o trabalho selecionado; a troca revela imagem e texto com uma transição. A imagem abre os detalhes, com contexto, tecnologias e links verificados.
+- **Sobre e laboratório:** narrativa e índice dos experimentos reais, com hierarquia tipográfica e revelações por rolagem.
+- **Contato:** encerramento tipográfico, links reais e navegação textual. Não há setas, ícones genéricos ou esculturas geométricas.
+
+React, TypeScript, Vite e GSAP/ScrollTrigger são a base. Os efeitos usam tipografia e as próprias imagens dos trabalhos; não há modelos 3D, canvas ou dependência de WebGL. Fontes locais: Big Shoulders Display, Manrope e Cormorant Garamond, com licenças SIL OFL preservadas em `public/licenses/`.
+
+## Organização
+
+| Arquivo                             | Conteúdo                                                              |
 | ----------------------------------- | --------------------------------------------------------------------- |
-| `src/content.ts`                    | Todos os textos PT/EN, dados dos projetos, links e tecnologias.       |
-| `src/App.tsx`                       | Seções, navegação, preferências, diálogos e animações de scroll.      |
-| `src/components/ProjectPreview.tsx` | Capturas reais, responsivas e com texto alternativo.                  |
-| `src/components/Sculpture.tsx`      | Fallback SVG acessível e carregamento progressivo do 3D.              |
-| `src/scene.ts`                      | Geometria JR procedural, materiais, iluminação e ciclo de vida WebGL. |
-| `src/styles.css`                    | Direção visual, temas e layouts responsivos.                          |
-| `src/test/`                         | Testes de jornadas do visitante e do carregamento progressivo.        |
-| `public/`                           | Favicon, imagem social, sitemap, robots e licenças das fontes.        |
-| `.github/workflows/deploy.yml`      | Verificações, build e publicação no GitHub Pages.                     |
+| `src/content.ts`                    | Textos PT/EN, dados dos projetos e experimentos.                      |
+| `src/App.tsx`                       | Seções, temas, idiomas, menu e diálogos.                              |
+| `src/components/Hero.tsx`           | Prévias reais, controles, alternância e resposta ao cursor.           |
+| `src/components/WorkGallery.tsx`    | Seleção e apresentação compacta dos trabalhos.                        |
+| `src/components/ProjectPreview.tsx` | Imagens responsivas com texto alternativo.                            |
+| `src/useMotion.ts`                  | Entrada tipográfica, coreografia de scroll e sincronização do layout. |
+| `src/editorial.css`                 | Hero, galeria e controles textuais.                                   |
+| `src/styles.css`                    | Temas, estilos globais e demais seções.                               |
+| `src/test/`                         | Jornadas de navegação, preferências, galeria e prévias.               |
+| `public/projects/README.md`         | Origem e critérios das capturas reais.                                |
 
-Para adicionar um trabalho, inclua um objeto em `projects`, com textos em ambos os idiomas, stack comprovada e URL do repositório. Use `private: true` para repositórios restritos e adicione `demo` somente após validar uma demonstração pública. `preview` aponta para uma captura real em `public/projects/`, com dimensões, origem e texto alternativo PT/EN. Trabalhos sem captura verificada entram no índice de estudos. Não use imagens genéricas nem interfaces inventadas como substituição. Novos experimentos entram em `experiments`.
+Para adicionar um trabalho, inclua um objeto em `projects`, com textos PT/EN e stack comprovada. `preview` só deve apontar para uma captura verificada, com origem, dimensões e texto alternativo. Os projetos com captura entram no índice visual da hero e da galeria; os demais ficam no índice textual. Adicione `demo` apenas quando existir uma demonstração confirmada e `private: true` para repositórios restritos.
 
-Mantenha os identificadores das seções (`work`, `about`, `lab`, `contact`): são âncoras públicas. Os detalhes usam diálogos na própria página, evitando problemas de rotas e recarregamento no GitHub Pages.
+Não use imagens inventadas para preencher um projeto. Consulte `AGENTS.md` e `RESEARCH.md` antes de alterar a direção visual ou as afirmações sobre os trabalhos.
 
-## Identidade e comportamento
+## Preferências e acessibilidade
 
-- **Conceito:** arquitetura JR. Duas iniciais extrudadas, conectadas por módulos, remetem a componentes e sistemas. Geometria criada no próprio projeto, sem modelos ou texturas de terceiros.
-- **Claro:** bege, lilás e roxo suave. **Escuro:** preto, roxo e branco com tonalidade lilás; materiais do JR e iluminação acompanham a paleta. As capturas dos projetos mantêm suas cores reais. As cores estão nas variáveis CSS; os materiais ficam em `scene.ts`.
-- **Tipografia:** Big Shoulders Display, Manrope e Cormorant Garamond. Arquivos locais em WOFF2, `font-display: swap` e apenas o subconjunto latino necessário a PT/EN. Fontes sob SIL OFL; avisos preservados em `public/licenses/`.
-- CSS autoral foi escolhido para as composições e materiais, sem acrescentar um framework de estilos desnecessário.
-- PT é o idioma inicial. `jr-lang` e `jr-theme` guardam escolhas no localStorage; falhas de armazenamento não impedem o uso. O tema acompanha o sistema enquanto não houver escolha explícita.
-- A galeria usa **capturas reais dos sites publicados**, preservando seus designs. Genesys e Saúde Alimentar aparecem com suas interfaces públicas. Curriculum permanece no índice de texto, sem capa fictícia. Fontes e critérios estão em `public/projects/README.md` e `AGENTS.md`.
+Português é o idioma inicial; `jr-lang` salva PT/EN. `jr-theme` preserva a escolha de tema; sem escolha explícita, o sistema define o tema. O site permanece funcional se o armazenamento estiver bloqueado.
 
-## 3D, movimento e acessibilidade
+As animações respeitam `prefers-reduced-motion`. A versão mobile tem composição própria e não usa a sequência sticky do desktop. Seleção de trabalhos e prévias continuam funcionando sem movimento. GSAP recalcula os gatilhos após carregamento de fontes, imagens, mudanças de tamanho, troca de idioma e retorno à página.
 
-O texto e o SVG aparecem antes do WebGL. O início do 3D aguarda 1,8 s para preservar a entrada tipográfica; a compilação dos shaders usa `compileAsync`. Three.js é carregado em um chunk separado e só inicia em telas maiores que 760 px, sem movimento reduzido, economia de dados ou indicação de memória limitada. Mudanças na preferência de movimento são observadas. Indisponibilidade/perda de contexto mantém o fallback SVG.
+Menu e detalhes usam `<dialog>` nativo, com Escape, foco contido e retorno ao acionador. Há link para pular ao conteúdo, foco visível e controles de texto acessíveis por teclado e toque. As seções usam âncoras (`work`, `about`, `lab`, `contact`), sem problemas de recarregamento de rotas no GitHub Pages.
 
-A interpolação da cena considera o tempo entre frames para preservar a resposta em diferentes taxas de renderização. O renderer usa resolução limitada, observa o tamanho/visibilidade da área e **não mantém um loop contínuo em repouso**. Renderiza durante a interpolação de uma interação, interrompe fora de vista e descarta geometrias, materiais, ambiente e contexto ao desmontar. O mobile usa a composição vetorial original.
+## Publicação
 
-O hook `src/useMotion.ts` inicia GSAP antes do paint e recalcula ScrollTrigger após fontes, imagens, mudanças de tamanho, troca de idioma e retorno à página. GSAP respeita `prefers-reduced-motion`; não há scroll hijacking, cursor obrigatório ou tela de carregamento bloqueante. Menu e detalhes usam `<dialog>` nativo, com Escape, foco contido e retorno de foco ao acionador. Inclui link para pular ao conteúdo, foco visível, navegação por âncoras e controles sem dependência de hover. O laboratório é um índice editorial dos experimentos reais, sem figuras decorativas ou experimentos fictícios.
+Repositório: `juniorrondini/juniorrondini.github.io`, branch `main`, Vite `base: '/'`. GitHub Pages usa **GitHub Actions** (`build_type: workflow`).
 
-## Publicar
-
-O repositório é `juniorrondini/juniorrondini.github.io`, branch `main`, com `base: '/'`. Em **Settings → Pages**, a origem deve ser **GitHub Actions** (`build_type: workflow`).
-
-Cada push na `main` executa `npm ci`, lint, testes e build, envia `dist` e publica no ambiente `github-pages`. Também é possível executar manualmente pela aba Actions. Apenas o job de deploy recebe `pages: write` e `id-token: write`; o restante usa `contents: read`. Não são necessários tokens ou secrets de deploy.
-
-Para atualizar:
+O workflow `.github/workflows/deploy.yml` executa `npm ci`, lint, testes e build, envia `dist` e publica no ambiente `github-pages`. Também aceita execução manual. Só o job de deploy recebe `pages: write` e `id-token: write`; o restante usa `contents: read`. Não há credenciais no cliente ou secrets de deploy necessários.
 
 ```sh
 git add src public README.md
-git commit -m "Update portfolio content"
+git commit -m "Update portfolio"
 git push origin main
 ```
 
-Confira o workflow e a URL pública antes de considerar a atualização concluída. Para reverter, reverta o commit e envie à `main`; o workflow republica a versão anterior.
-
-## Conteúdo e fontes
-
-Veja [RESEARCH.md](RESEARCH.md) para os critérios de seleção, evidências e limitações dos projetos. Não transforme interesses do perfil em experiência profissional presumida, nem protótipos em sistemas completos.
-
-O portfólio não replica fontes, modelos, símbolos ou assets de Clay Boan. A referência orienta o ritmo editorial, a integração de 3D e a hierarquia visual.
+Confirme o workflow e a URL pública. Para reverter, reverta o commit e envie à `main`.
 
 ## Validação
 
-Os testes automatizados verificam idioma, persistência de preferências, detalhes e links dos projetos, repositórios privados, demos confirmadas, navegação móvel, cancelamento de diálogos, retorno de foco, capturas reais e links do laboratório, sincronização de fontes/imagens/idioma com o scroll, espera da introdução antes do 3D, falhas de armazenamento e fallback/disposição da cena 3D.
+Os testes cobrem preferências, idiomas, menu, diálogos, foco, fontes privadas, demos, seleção dos projetos, origem das imagens, alternância e pausa das prévias e sincronização do layout. Os movimentos visuais são verificados separadamente em navegador Chromium isolado com REA, incluindo desktop, mobile e movimento reduzido; passar nos testes unitários não substitui essa inspeção visual.
 
-Testes em JSDOM não certificam layout, renderização GPU ou desempenho em dispositivos reais. As capturas dos projetos foram obtidas dos sites públicos via mShots e inspecionadas como arquivos. REA foi usado para testar a aplicação em um Chromium isolado: carregamento, cena WebGL, rolagem, âncoras e capturas, com preferências controladas. O controle da janela pessoal do Chrome permaneceu indisponível; o teste usou um perfil temporário próprio. Permanecem recomendadas revisões visuais em desktop, tablet e telefone, nos dois temas e idiomas, com movimento normal/reduzido e sem WebGL.
-
-A pasta local `.research/` contém apenas material de análise e ferramentas locais; está ignorada pelo Git. Seu conteúdo e o código-fonte dos repositórios privados **não integram a publicação**.
+As pastas `.qa/` e `.research/` contêm material local de análise e validação e estão ignoradas pelo Git. Código-fonte privado e dados de clientes não integram a publicação.

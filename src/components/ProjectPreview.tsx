@@ -3,9 +3,11 @@ import type { Language, Project } from "../content";
 export function ProjectPreview({
   project,
   language,
+  sizes = "(max-width: 760px) 88vw, 850px",
 }: {
   project: Project;
   language: Language;
+  sizes?: string;
 }) {
   if (!project.preview) return null;
   const { preview } = project;
@@ -14,7 +16,7 @@ export function ProjectPreview({
       <img
         src={preview.src}
         srcSet={`${preview.smallSrc} 768w, ${preview.src} 1280w`}
-        sizes="(max-width: 760px) 88vw, (max-width: 1100px) 86vw, 1200px"
+        sizes={sizes}
         width={preview.width}
         height={preview.height}
         alt={preview.alt[language]}

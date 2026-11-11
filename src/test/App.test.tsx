@@ -5,7 +5,7 @@ import { copy, experiments, projects } from "../content";
 import { preferences } from "./setup";
 
 describe("Visitor journeys", () => {
-  it("starts in Portuguese, follows the system theme and keeps core content outside WebGL", () => {
+  it("starts in Portuguese, follows the system theme and uses real work without geometric decorations", () => {
     preferences.dark = true;
     const { container } = render(<App />);
     expect(document.documentElement.lang).toBe("pt-BR");
@@ -14,7 +14,14 @@ describe("Visitor journeys", () => {
       "Junior Rondini",
     );
     expect(container.querySelector("canvas")).toBeNull();
-    expect(screen.getByRole("img", { name: copy.pt.sceneLabel })).toBeTruthy();
+    expect(
+      container.querySelector(".sculpture, .hero-sculpture, .lucide"),
+    ).toBeNull();
+    expect(
+      screen
+        .getAllByRole("img")
+        .every((image) => image.getAttribute("src")?.startsWith("/projects/")),
+    ).toBe(true);
     for (const id of ["work", "about", "lab", "contact"])
       expect(container.querySelector(`#${id}`)).toBeTruthy();
     expect(
@@ -62,6 +69,12 @@ describe("Visitor journeys", () => {
   it("opens each project with truthful context, respects private sources and provides only confirmed demos", () => {
     render(<App />);
     for (const project of projects) {
+      if (project.preview)
+        fireEvent.click(
+          screen.getByRole("button", {
+            name: `${copy.pt.chooseProject}: ${project.name}`,
+          }),
+        );
       const button = project.preview
         ? screen.getByRole("button", {
             name: `${copy.pt.viewProject}: ${project.name}`,
@@ -119,12 +132,17 @@ describe("Visitor journeys", () => {
   it("shows only captured project interfaces and links to real experiments", () => {
     render(<App />);
     const featured = projects.filter((project) => project.preview);
-    expect(screen.getAllByRole("img").length).toBe(1 + featured.length);
+    const gallery = within(screen.getByTestId("work-gallery"));
     for (const project of featured) {
-      const image = screen.getByRole("img", { name: project.preview!.alt.pt });
+      fireEvent.click(
+        gallery.getByRole("button", {
+          name: `${copy.pt.chooseProject}: ${project.name}`,
+        }),
+      );
+      const image = gallery.getByRole("img", { name: project.preview!.alt.pt });
       expect(image.getAttribute("src")).toBe(project.preview!.src);
       expect(image.getAttribute("srcset")).toContain(project.preview!.smallSrc);
-      expect(screen.getByText(project.preview!.source)).toBeTruthy();
+      expect(gallery.getByText(project.preview!.source)).toBeTruthy();
     }
     expect(screen.queryByRole("slider")).toBeNull();
     for (const item of experiments)

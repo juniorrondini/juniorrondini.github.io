@@ -5,8 +5,8 @@ Pesquisa realizada em 11 de novembro de 2026. Os projetos foram examinados por R
 ## Referências
 
 - [Perfil e README completo de Junior Rondini](https://github.com/juniorrondini/juniorrondini): interfaces, APIs, bancos de dados, automação, sistemas empresariais e ferramentas úteis; performance, IA, SaaS e linguagens incomuns como exploração.
-- [Clay Boan](https://www.clayboan.com/): escala tipográfica, sobreposição entre texto/3D, ritmo editorial, seleção de trabalhos e encerramento expressivo. A navegação automatizada visual não pôde ser completada nesta sessão.
-- [Estudo técnico no Codrops](https://tympanus.net/codrops/2025/10/14/the-underdogs-crown-clay-boans-3d-playground-of-design-motion-and-gsap-magic/): consultado pelo índice de busca após bloqueio HTTP do acesso direto. Referência para renderização compartilhada, material físico e animação por scroll. A implementação usa uma única cena própria e nenhum asset da referência.
+- [Clay Boan](https://www.clayboan.com/): escala tipográfica, sobreposição, ritmo editorial, seleção de trabalhos e encerramento expressivo, examinados na captura pública e no estudo técnico.
+- [Estudo técnico no Codrops](https://tympanus.net/codrops/2025/10/14/the-underdogs-crown-clay-boans-3d-playground-of-design-motion-and-gsap-magic/): consultado pelo índice de busca após bloqueio HTTP do acesso direto. O portfólio adota coreografia de scroll, máscaras tipográficas e transições das capturas reais, sem modelos ou assets da referência.
 - [GitHub Pages com workflows personalizados](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages): publicação estática pelo Actions, artefato Pages e permissões do job de deploy.
 
 ## Galeria principal

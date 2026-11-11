@@ -1,18 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import {
-  ArrowDown,
-  ArrowDownRight,
-  ArrowUp,
-  ArrowUpRight,
-  LockKeyhole,
-  Menu,
-  Moon,
-  Sun,
-  X,
-} from "lucide-react";
 import { copy, experiments, projects, toolGroups } from "./content";
 import type { Copy, Language, Project, Theme } from "./content";
-import Sculpture from "./components/Sculpture";
+import { Hero } from "./components/Hero";
+import { WorkGallery } from "./components/WorkGallery";
 import { useMotion } from "./useMotion";
 import { ProjectPreview } from "./components/ProjectPreview";
 
@@ -85,12 +75,12 @@ function ProjectDialog({
             {t.overview} / {project.number}
           </span>
           <button
-            className="icon-button"
+            className="text-control"
             autoFocus
             onClick={onClose}
             aria-label={t.close}
           >
-            <X />
+            {t.close}
           </button>
         </div>
         <span className="eyebrow accent-text">
@@ -123,12 +113,7 @@ function ProjectDialog({
                 <span key={tech}>{tech}</span>
               ))}
             </div>
-            {project.private && (
-              <p className="private-note">
-                <LockKeyhole size={15} />
-                {t.privateNote}
-              </p>
-            )}
+            {project.private && <p className="private-note">{t.privateNote}</p>}
             <div className="dialog-links">
               <a
                 className="text-link"
@@ -137,21 +122,15 @@ function ProjectDialog({
                 rel="noreferrer"
               >
                 {project.private ? t.privateCode : t.code}
-                {project.private ? (
-                  <LockKeyhole size={16} />
-                ) : (
-                  <ArrowUpRight size={18} />
-                )}
               </a>
               {project.demo && (
                 <a
-                  className="pill-button"
+                  className="action-link"
                   href={project.demo}
                   target="_blank"
                   rel="noreferrer"
                 >
                   {t.visit}
-                  <ArrowUpRight size={18} />
                 </a>
               )}
             </div>
@@ -186,8 +165,8 @@ function MobileMenu({ t, close }: { t: Copy; close: () => void }) {
     >
       <div className="mobile-menu-top">
         <Monogram />
-        <button className="icon-button" onClick={close} aria-label={t.close}>
-          <X />
+        <button className="text-control" onClick={close} aria-label={t.close}>
+          {t.close}
         </button>
       </div>
       <nav>
@@ -195,12 +174,11 @@ function MobileMenu({ t, close }: { t: Copy; close: () => void }) {
           <a key={anchor} href={`#${anchor}`} onClick={close}>
             <small>0{i + 1}</small>
             {t.nav[i]}
-            <ArrowUpRight />
           </a>
         ))}
       </nav>
       <a className="text-link" href="mailto:jjrondinijj@gmail.com">
-        jjrondinijj@gmail.com <ArrowUpRight size={18} />
+        jjrondinijj@gmail.com
       </a>
     </dialog>
   );
@@ -315,66 +293,27 @@ export default function App() {
           </button>
           <span className="control-divider" />
           <button
-            className="icon-button theme-toggle"
+            className="text-control theme-toggle"
             onClick={toggleTheme}
             aria-label={t.theme}
             aria-pressed={theme === "dark"}
           >
-            {theme === "dark" ? <Sun size={19} /> : <Moon size={19} />}
+            {theme === "dark" ? t.light : t.dark}
           </button>
           <button
-            className="icon-button menu-toggle"
+            className="text-control menu-toggle"
             aria-label={t.menu}
             aria-haspopup="dialog"
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen(true)}
           >
-            <Menu size={22} />
+            {t.menuLabel}
           </button>
         </div>
       </header>
       <main id="main">
-        <section className="hero" id="top" aria-labelledby="hero-heading">
-          <h1 id="hero-heading" className="sr-only">
-            Junior Rondini — Full Stack Developer
-          </h1>
-          <div className="hero-topline eyebrow">
-            <span>{t.role}</span>
-            <span>{t.discipline}</span>
-            <span>{t.portfolio} / V.01</span>
-          </div>
-          <div className="hero-type" aria-hidden="true">
-            <div className="hero-name-first">
-              <span className="hero-line">JUNIOR</span>
-            </div>
-            <div className="hero-name-last">
-              <span className="hero-line">Rondini</span>
-            </div>
-          </div>
-          <div className="hero-sculpture">
-            <Sculpture key={theme} theme={theme} label={t.sceneLabel} />
-          </div>
-          <div className="hero-meta">
-            <div className="hero-statement">
-              {t.heroLine.map((line) => (
-                <span key={line}>{line}</span>
-              ))}
-            </div>
-            <p>{t.heroSide}</p>
-            <a className="round-link" href="#work">
-              <span>{t.selected}</span>
-              <i>
-                <ArrowDownRight size={28} />
-              </i>
-            </a>
-          </div>
-          <a className="scroll-cue eyebrow" href="#work">
-            <ArrowDown size={14} />
-            {t.scroll}
-            <span>(01—04)</span>
-          </a>
-        </section>
+        <Hero language={language} t={t} onOpen={openProject} />
 
         <section
           className="work section-pad"
@@ -393,48 +332,7 @@ export default function App() {
             </h2>
             <p className="reveal">{t.workIntro}</p>
           </div>
-          <div className="project-gallery">
-            {projects
-              .filter((project) => project.preview)
-              .map((project, i) => (
-                <article
-                  className={`project project-${i + 1} reveal`}
-                  key={project.id}
-                >
-                  <button
-                    className="project-preview-button"
-                    onClick={(event) => openProject(project, event)}
-                    aria-label={`${t.viewProject}: ${project.name}`}
-                  >
-                    <ProjectPreview project={project} language={language} />
-                  </button>
-                  <div className="preview-caption">
-                    <span>{project.preview?.source}</span>
-                    <span>{t.screenCapture}</span>
-                  </div>
-                  <div className="project-info">
-                    <span className="project-number">({project.number})</span>
-                    <div>
-                      <span className="eyebrow">
-                        {project.category[language]}
-                      </span>
-                      <h3>
-                        <button
-                          onClick={(event) => openProject(project, event)}
-                        >
-                          {project.name}
-                          <ArrowUpRight size={24} />
-                        </button>
-                      </h3>
-                      <p>{project.description[language]}</p>
-                    </div>
-                    <span className="project-stack">
-                      {project.stack.slice(0, 3).join(" / ")}
-                    </span>
-                  </div>
-                </article>
-              ))}
-          </div>
+          <WorkGallery language={language} t={t} onOpen={openProject} />
           <div className="archive">
             <div className="archive-heading reveal">
               <span className="eyebrow">{t.archive}</span>
@@ -453,7 +351,6 @@ export default function App() {
                   <span className="eyebrow archive-category">
                     {project.category[language]}
                   </span>
-                  <ArrowUpRight size={24} />
                 </button>
               ))}
           </div>
@@ -558,9 +455,7 @@ export default function App() {
                   </span>
                 </div>
                 <p>{experiment.description[language]}</p>
-                <span className="experiment-link">
-                  <ArrowUpRight size={24} />
-                </span>
+                <span className="experiment-link">{t.labLink}</span>
               </a>
             ))}
           </div>
@@ -590,10 +485,7 @@ export default function App() {
                 href="mailto:jjrondinijj@gmail.com"
               >
                 <small className="eyebrow">{t.email}</small>
-                <span>
-                  jjrondinijj@gmail.com
-                  <ArrowUpRight size={28} />
-                </span>
+                <span>jjrondinijj@gmail.com</span>
               </a>
             </div>
           </div>
@@ -604,7 +496,6 @@ export default function App() {
               rel="noreferrer"
             >
               GitHub
-              <ArrowUpRight size={17} />
             </a>
             <a
               href="https://www.linkedin.com/in/juniorrondini"
@@ -612,11 +503,9 @@ export default function App() {
               rel="noreferrer"
             >
               LinkedIn
-              <ArrowUpRight size={17} />
             </a>
             <a href="#top" className="back-top">
               {t.top}
-              <ArrowUp size={18} />
             </a>
           </div>
         </section>
@@ -637,7 +526,6 @@ export default function App() {
           rel="noreferrer"
         >
           {t.source}
-          <ArrowUpRight size={14} />
         </a>
       </footer>
       {menuOpen && <MobileMenu t={t} close={closeMenu} />}
