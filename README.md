@@ -46,7 +46,7 @@ Mantenha os identificadores das seções (`work`, `about`, `lab`, `contact`): s�
 ## Identidade e comportamento
 
 - **Conceito:** arquitetura JR. Duas iniciais extrudadas, conectadas por módulos, remetem a componentes e sistemas. Geometria criada no próprio projeto, sem modelos ou texturas de terceiros.
-- **Claro:** papel mineral, grafite, vermelho terroso e metal escuro. **Escuro:** carvão, branco quente, verde ácido e metal com iluminação mais intensa. As cores estão nas variáveis CSS; os materiais ficam em `scene.ts`.
+- **Claro:** bege, lilás e roxo suave. **Escuro:** preto, roxo e branco com tonalidade lilás; materiais do JR e iluminação acompanham a paleta. As capturas dos projetos mantêm suas cores reais. As cores estão nas variáveis CSS; os materiais ficam em `scene.ts`.
 - **Tipografia:** Big Shoulders Display, Manrope e Cormorant Garamond. Arquivos locais em WOFF2, `font-display: swap` e apenas o subconjunto latino necessário a PT/EN. Fontes sob SIL OFL; avisos preservados em `public/licenses/`.
 - CSS autoral foi escolhido para as composições e materiais, sem acrescentar um framework de estilos desnecessário.
 - PT é o idioma inicial. `jr-lang` e `jr-theme` guardam escolhas no localStorage; falhas de armazenamento não impedem o uso. O tema acompanha o sistema enquanto não houver escolha explícita.
@@ -54,11 +54,11 @@ Mantenha os identificadores das seções (`work`, `about`, `lab`, `contact`): s�
 
 ## 3D, movimento e acessibilidade
 
-O texto e o SVG aparecem antes do WebGL. Three.js é carregado em um chunk separado e só inicia em telas maiores que 760 px, sem movimento reduzido, economia de dados ou indicação de memória limitada. Mudanças na preferência de movimento são observadas. Indisponibilidade/perda de contexto mantém o fallback SVG.
+O texto e o SVG aparecem antes do WebGL. O início do 3D aguarda 1,8 s para preservar a entrada tipográfica; a compilação dos shaders usa `compileAsync`. Three.js é carregado em um chunk separado e só inicia em telas maiores que 760 px, sem movimento reduzido, economia de dados ou indicação de memória limitada. Mudanças na preferência de movimento são observadas. Indisponibilidade/perda de contexto mantém o fallback SVG.
 
-O renderer usa resolução limitada, observa o tamanho/visibilidade da área e **não mantém um loop contínuo em repouso**. Renderiza durante a interpolação de uma interação, interrompe fora de vista e descarta geometrias, materiais, ambiente e contexto ao desmontar. O mobile usa a composição vetorial original.
+A interpolação da cena considera o tempo entre frames para preservar a resposta em diferentes taxas de renderização. O renderer usa resolução limitada, observa o tamanho/visibilidade da área e **não mantém um loop contínuo em repouso**. Renderiza durante a interpolação de uma interação, interrompe fora de vista e descarta geometrias, materiais, ambiente e contexto ao desmontar. O mobile usa a composição vetorial original.
 
-GSAP respeita `prefers-reduced-motion`; não há scroll hijacking, cursor obrigatório ou tela de carregamento bloqueante. Menu e detalhes usam `<dialog>` nativo, com Escape, foco contido e retorno de foco ao acionador. Inclui link para pular ao conteúdo, foco visível, navegação por âncoras e controles sem dependência de hover. O laboratório é um índice editorial dos experimentos reais, sem figuras decorativas ou experimentos fictícios.
+O hook `src/useMotion.ts` inicia GSAP antes do paint e recalcula ScrollTrigger após fontes, imagens, mudanças de tamanho, troca de idioma e retorno à página. GSAP respeita `prefers-reduced-motion`; não há scroll hijacking, cursor obrigatório ou tela de carregamento bloqueante. Menu e detalhes usam `<dialog>` nativo, com Escape, foco contido e retorno de foco ao acionador. Inclui link para pular ao conteúdo, foco visível, navegação por âncoras e controles sem dependência de hover. O laboratório é um índice editorial dos experimentos reais, sem figuras decorativas ou experimentos fictícios.
 
 ## Publicar
 
@@ -84,8 +84,8 @@ O portfólio não replica fontes, modelos, símbolos ou assets de Clay Boan. A r
 
 ## Validação
 
-Os testes automatizados verificam idioma, persistência de preferências, detalhes e links dos projetos, repositórios privados, demos confirmadas, navegação móvel, cancelamento de diálogos, retorno de foco, capturas reais e links do laboratório, falhas de armazenamento e fallback/disposição da cena 3D.
+Os testes automatizados verificam idioma, persistência de preferências, detalhes e links dos projetos, repositórios privados, demos confirmadas, navegação móvel, cancelamento de diálogos, retorno de foco, capturas reais e links do laboratório, sincronização de fontes/imagens/idioma com o scroll, espera da introdução antes do 3D, falhas de armazenamento e fallback/disposição da cena 3D.
 
-Testes em JSDOM não certificam layout, renderização GPU ou desempenho em dispositivos reais. As capturas dos projetos foram obtidas dos sites públicos via mShots e inspecionadas como arquivos. O controle interativo do Chrome não pôde continuar porque a ferramenta não identificou a URL da janela com confiança; não houve validação interativa no navegador nesta revisão. Permanecem recomendadas revisões visuais em desktop, tablet e telefone, nos dois temas e idiomas, com movimento normal/reduzido e sem WebGL.
+Testes em JSDOM não certificam layout, renderização GPU ou desempenho em dispositivos reais. As capturas dos projetos foram obtidas dos sites públicos via mShots e inspecionadas como arquivos. REA foi usado para testar a aplicação em um Chromium isolado: carregamento, cena WebGL, rolagem, âncoras e capturas, com preferências controladas. O controle da janela pessoal do Chrome permaneceu indisponível; o teste usou um perfil temporário próprio. Permanecem recomendadas revisões visuais em desktop, tablet e telefone, nos dois temas e idiomas, com movimento normal/reduzido e sem WebGL.
 
 A pasta local `.research/` contém apenas material de análise e ferramentas locais; está ignorada pelo Git. Seu conteúdo e o código-fonte dos repositórios privados **não integram a publicação**.

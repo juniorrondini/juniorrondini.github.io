@@ -24,41 +24,45 @@
 }
 :root {
   font-family: "Manrope Variable", sans-serif;
-  color: #20231e;
-  background: #e9e7e1;
+  color: var(--ink);
+  background: var(--bg);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --bg: #e9e7e1;
-  --surface: #e1dfd7;
-  --ink: #20231e;
-  --muted: #62665d;
-  --line: rgba(32, 35, 30, 0.23);
-  --accent: #bb361f;
-  --accent-ink: #fff7ed;
-  --metal-light: #b7beb0;
-  --metal-mid: #535e50;
-  --metal-dark: #1a201b;
-  --metal-edge: #899281;
+  --bg: #efe7da;
+  --surface: #e6dccd;
+  --ink: #2c2138;
+  --muted: #6e5d7a;
+  --line: rgba(44, 33, 56, 0.22);
+  --accent: #bc9cdb;
+  --accent-ink: #30213d;
+  --metal-light: #e9dff4;
+  --metal-mid: #7d648e;
+  --metal-dark: #30223f;
+  --metal-edge: #ad94c5;
   --display: "Big Shoulders Display Variable", Impact, sans-serif;
   --serif: "Cormorant Garamond", Georgia, serif;
   color-scheme: light;
+  --accent-text: #70508b;
+  --accent-display: #9270b7;
 }
 :root[data-theme="dark"] {
-  --bg: #111410;
-  --surface: #1b1f18;
-  --ink: #e8eadf;
-  --muted: #a6ad9d;
-  --line: rgba(232, 234, 223, 0.24);
-  --accent: #d5fb74;
-  --accent-ink: #171d11;
-  --metal-light: #f0f4e5;
-  --metal-mid: #949e88;
-  --metal-dark: #2e3829;
-  --metal-edge: #d0d9c4;
+  --bg: #0d0a12;
+  --surface: #16101f;
+  --ink: #f1eaf8;
+  --muted: #b3a7c0;
+  --line: rgba(241, 234, 248, 0.22);
+  --accent: #b993f7;
+  --accent-ink: #160c25;
+  --metal-light: #f0e8ff;
+  --metal-mid: #9585b1;
+  --metal-dark: #2b203c;
+  --metal-edge: #cbb7ec;
   color-scheme: dark;
   background: var(--bg);
   color: var(--ink);
+  --accent-text: #b993f7;
+  --accent-display: #b993f7;
 }
 * {
   box-sizing: border-box;
@@ -178,7 +182,7 @@ section[id] {
   line-height: 1.5;
 }
 .accent-text {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .section-pad {
   padding: 90px 4.3vw 110px;
@@ -261,7 +265,7 @@ section[id] {
   padding: 10px 0;
 }
 .text-link:hover {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 
 /* The masthead is the navigation, never a loading screen. */
@@ -597,7 +601,7 @@ section[id] {
 }
 .project-info h3 button:hover svg {
   transform: translate(5px, -5px);
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .project-info p {
   font-size: 12px;
@@ -647,7 +651,7 @@ section[id] {
 }
 .archive-row:hover {
   padding-left: 12px;
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .archive-category {
   color: var(--muted);
@@ -697,7 +701,7 @@ section[id] {
   position: relative;
 }
 .narrative-block > .eyebrow {
-  color: var(--accent);
+  color: var(--accent-text);
 }
 .narrative-block h3 {
   font-size: clamp(26px, 3vw, 43px);

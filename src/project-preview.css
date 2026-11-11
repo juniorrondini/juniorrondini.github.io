@@ -7,13 +7,16 @@
   line-height: 1;
   letter-spacing: -0.07em;
   -webkit-text-stroke: 0;
-  color: var(--ink);
+  color: var(--accent-display);
   margin-top: -10px;
   padding-right: 3vw;
   overflow: visible;
 }
 .project {
   width: 100%;
+}
+.display-heading em {
+  color: var(--accent-display);
 }
 .project-2 {
   width: 84%;

@@ -1,7 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { describe, expect, it, vi } from "vitest";
+import { act, render, screen } from "@testing-library/react";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import Sculpture from "../components/Sculpture";
 import { preferences } from "./setup";
+import { SCENE_START_DELAY_MS } from "../motion-settings";
 
 const { mount, dispose } = vi.hoisted(() => ({
   mount: vi.fn(),
@@ -10,19 +11,33 @@ const { mount, dispose } = vi.hoisted(() => ({
 vi.mock("../scene", () => ({ mountScene: mount }));
 
 describe("Progressive 3D enhancement", () => {
+  beforeEach(() => {
+    vi.useFakeTimers();
+    mount.mockReset();
+    dispose.mockReset();
+  });
+  afterEach(() => {
+    vi.useRealTimers();
+  });
+  const advance = async (duration: number) => {
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(duration);
+      await vi.dynamicImportSettled();
+    });
+  };
   it("keeps the original SVG on mobile and with reduced motion without initializing WebGL", async () => {
     mount.mockClear();
     const page = render(<Sculpture theme="light" label="JR sculpture" />);
     expect(
       screen.getByRole("img", { name: "JR sculpture" }).querySelector("svg"),
     ).toBeTruthy();
-    await new Promise((resolve) => setTimeout(resolve, 180));
+    await advance(SCENE_START_DELAY_MS + 100);
     expect(mount).not.toHaveBeenCalled();
     page.unmount();
     preferences.reduce = false;
     preferences.mobile = true;
     render(<Sculpture theme="dark" label="JR sculpture" />);
-    await new Promise((resolve) => setTimeout(resolve, 180));
+    await advance(SCENE_START_DELAY_MS + 100);
     expect(mount).not.toHaveBeenCalled();
   });
 
@@ -34,7 +49,10 @@ describe("Progressive 3D enhancement", () => {
     });
     dispose.mockClear();
     const page = render(<Sculpture theme="dark" label="JR sculpture" />);
-    await waitFor(() => expect(mount).toHaveBeenCalled());
+    await advance(SCENE_START_DELAY_MS - 1);
+    expect(mount).not.toHaveBeenCalled();
+    await advance(1);
+    expect(mount).toHaveBeenCalledTimes(1);
     expect(mount.mock.calls.at(-1)?.[1]).toBe("dark");
     expect(
       screen
@@ -51,7 +69,8 @@ describe("Progressive 3D enhancement", () => {
       throw new Error("WebGL unavailable");
     });
     render(<Sculpture theme="light" label="JR sculpture" />);
-    await waitFor(() => expect(mount).toHaveBeenCalled());
+    await advance(SCENE_START_DELAY_MS);
+    expect(mount).toHaveBeenCalledTimes(1);
     expect(
       screen
         .getByRole("img", { name: "JR sculpture" })

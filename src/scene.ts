@@ -28,7 +28,7 @@ export function mountScene(
   const group = new THREE.Group();
   scene.add(group);
   const material = new THREE.MeshPhysicalMaterial({
-    color: dark ? 0xa5afa0 : 0x555d54,
+    color: dark ? 0x4e2f6a : 0x5e486e,
     metalness: 0.94,
     roughness: 0.23,
     clearcoat: 0.5,
@@ -36,7 +36,7 @@ export function mountScene(
     envMapIntensity: dark ? 1.6 : 2.1,
   });
   const accent = new THREE.MeshStandardMaterial({
-    color: dark ? 0xc6f378 : 0xf05533,
+    color: dark ? 0xb993f7 : 0xbc9cdb,
     metalness: 0.35,
     roughness: 0.3,
   });
@@ -108,36 +108,49 @@ export function mountScene(
   const key = new THREE.DirectionalLight(0xffffff, dark ? 6 : 4);
   key.position.set(-3, 4, 5);
   scene.add(key);
-  const rim = new THREE.DirectionalLight(dark ? 0xd6ff9e : 0xffcab5, 3);
+  const rim = new THREE.DirectionalLight(dark ? 0xcdb6ff : 0xe3c7fa, 3);
   rim.position.set(3, 1, -2);
   scene.add(rim);
   scene.add(new THREE.AmbientLight(0xffffff, 0.6));
   let frame = 0,
     visible = true,
     disposed = false;
+  let prepared = false;
+  let revealed = false;
+  let previousFrameTime = performance.now();
   let targetX = -0.16,
     targetY = -0.32,
     rotationX = -0.16,
     rotationY = -0.32;
   group.rotation.set(rotationX, rotationY, -0.12);
-  const render = () => {
+  const render = (now: number) => {
     frame = 0;
-    if (disposed || !visible || document.hidden) return;
-    rotationX += (targetX - rotationX) * 0.075;
-    rotationY += (targetY - rotationY) * 0.075;
+    if (disposed || !prepared || !visible || document.hidden) return;
+    const smoothing =
+      1 - Math.exp(-Math.min(now - previousFrameTime, 64) / 200);
+    previousFrameTime = now;
+    rotationX += (targetX - rotationX) * smoothing;
+    rotationY += (targetY - rotationY) * smoothing;
     group.rotation.x = rotationX;
     group.rotation.y = rotationY;
     renderer.render(scene, camera);
+    if (!revealed) {
+      revealed = true;
+      onReady();
+    }
     if (Math.abs(targetX - rotationX) + Math.abs(targetY - rotationY) > 0.0003)
       frame = requestAnimationFrame(render);
   };
   const requestRender = () => {
-    if (!frame && visible && !disposed) frame = requestAnimationFrame(render);
+    if (!frame && prepared && visible && !disposed) {
+      previousFrameTime = performance.now();
+      frame = requestAnimationFrame(render);
+    }
   };
   const resize = () => {
     const { width, height } = host.getBoundingClientRect();
     if (!width || !height) return;
-    renderer.setSize(width, height);
+    renderer.setSize(width, height, false);
     camera.aspect = width / height;
     camera.updateProjectionMatrix();
     requestRender();
@@ -171,8 +184,17 @@ export function mountScene(
   window.addEventListener("scroll", scroll, { passive: true });
   document.addEventListener("visibilitychange", visibility);
   resize();
-  renderer.render(scene, camera);
-  onReady();
+  // Compile scene shaders without blocking the entrance animation on slower GPUs.
+  void Promise.resolve()
+    .then(() => renderer.compileAsync(scene, camera))
+    .then(() => {
+      if (disposed) return;
+      prepared = true;
+      requestRender();
+    })
+    .catch(() => {
+      if (!disposed) onLost();
+    });
   return () => {
     disposed = true;
     cancelAnimationFrame(frame);

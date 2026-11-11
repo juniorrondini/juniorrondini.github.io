@@ -2,6 +2,8 @@
 
 The owner requires a refined editorial portfolio grounded in their actual work.
 
+- The dark identity uses black and purple. The light identity uses beige and lighter purple/lilac. Keep project screenshots in their original colors.
+
 - Use real project interface captures or actual assets from the corresponding published design. Preserve their typography, colors and composition. Check every image visually before using it.
 - Do not replace a project design with generated artwork, a conceptual mockup, stock photography, generic icons, floating polygons, cubes, or unrelated abstract shapes.
 - If a project has no verified capture, present it in the text index with truthful details and links. Do not fabricate an interface to fill its place.

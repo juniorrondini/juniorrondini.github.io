@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+﻿import { useEffect, useRef, useState } from "react";
 import type { Theme } from "../content";
+import { SCENE_START_DELAY_MS } from "../motion-settings";
 
 function Fallback() {
   return (
@@ -17,8 +18,8 @@ function Fallback() {
           <stop offset="1" stopColor="var(--metal-mid)" />
         </linearGradient>
         <linearGradient id="jr-side" x1="0" y1="0" x2="1" y2="1">
-          <stop stopColor="#161916" />
-          <stop offset="1" stopColor="#7e8278" />
+          <stop stopColor="#16101f" />
+          <stop offset="1" stopColor="#8a749e" />
         </linearGradient>
         <filter id="shadow">
           <feGaussianBlur stdDeviation="19" />
@@ -37,7 +38,7 @@ function Fallback() {
         <g
           transform="translate(24 26)"
           fill="url(#jr-side)"
-          stroke="#454940"
+          stroke="#53405f"
           strokeWidth="1"
         >
           <path d="M39 53H220V293Q220 388 119 388Q17 388 17 282H86Q86 320 119 320Q150 320 150 282V124H39Z" />
@@ -119,7 +120,7 @@ export default function Sculpture({
     let timer = eligible()
       ? window.setTimeout(() => {
           void start();
-        }, 150)
+        }, SCENE_START_DELAY_MS)
       : undefined;
     const update = () => {
       generation++;
@@ -130,7 +131,7 @@ export default function Sculpture({
       if (eligible())
         timer = window.setTimeout(() => {
           void start();
-        }, 150);
+        }, SCENE_START_DELAY_MS);
     };
     media.addEventListener("change", update);
     return () => {

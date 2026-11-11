@@ -10,14 +10,12 @@ import {
   Sun,
   X,
 } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { copy, experiments, projects, toolGroups } from "./content";
 import type { Copy, Language, Project, Theme } from "./content";
 import Sculpture from "./components/Sculpture";
+import { useMotion } from "./useMotion";
 import { ProjectPreview } from "./components/ProjectPreview";
 
-gsap.registerPlugin(ScrollTrigger);
 const anchors = ["work", "about", "lab", "contact"];
 
 function stored<T extends string>(
@@ -44,68 +42,6 @@ function Monogram({ className = "" }: { className?: string }) {
       <path d="M1 3h25v26c0 12-6 17-17 17H1V34h7c4 0 6-2 6-6V15H1zm32 0h13c12 0 17 6 17 15 0 6-3 11-8 13l9 15H50L42 31v15H30V3zm9 12v7h4c4 0 5-1 5-4 0-2-1-3-5-3z" />
     </svg>
   );
-}
-
-function useMotion(root: React.RefObject<HTMLDivElement | null>) {
-  useEffect(() => {
-    const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      const ctx = gsap.context(() => {
-        gsap.from(".hero-line", {
-          yPercent: 110,
-          rotate: 3,
-          duration: 1.15,
-          stagger: 0.12,
-          ease: "power4.out",
-          clearProps: "transform",
-        });
-        gsap.from(".hero-meta > *, .hero-topline", {
-          y: 18,
-          opacity: 0,
-          duration: 0.8,
-          delay: 0.45,
-          stagger: 0.08,
-          clearProps: "all",
-        });
-        gsap.utils.toArray<HTMLElement>(".reveal").forEach((element) => {
-          gsap.from(element, {
-            y: 42,
-            opacity: 0,
-            duration: 0.85,
-            ease: "power3.out",
-            scrollTrigger: { trigger: element, start: "top 93%", once: true },
-            clearProps: "all",
-          });
-        });
-        gsap.to(".hero-name-first", {
-          yPercent: 15,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".hero",
-            start: "top top",
-            end: "bottom top",
-            scrub: 0.7,
-          },
-        });
-        gsap.utils
-          .toArray<HTMLElement>(".contact-heading > span")
-          .forEach((line, index) => {
-            gsap.from(line, {
-              xPercent: index % 2 ? 4 : -3,
-              ease: "none",
-              scrollTrigger: {
-                trigger: ".contact-heading",
-                start: "top 95%",
-                end: "bottom 70%",
-                scrub: 0.6,
-              },
-            });
-          });
-      }, root);
-      return () => ctx.revert();
-    });
-    return () => media.revert();
-  }, [root]);
 }
 
 function ProjectDialog({
@@ -296,7 +232,7 @@ export default function App() {
   const closeProject = useCallback(() => setSelection(null), []);
   const closeMenu = useCallback(() => setMenuOpen(false), []);
   const t = copy[language];
-  useMotion(root);
+  useMotion(root, language);
 
   useEffect(() => {
     document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
@@ -319,7 +255,7 @@ export default function App() {
     document.documentElement.dataset.theme = theme;
     document
       .querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", theme === "dark" ? "#111410" : "#e9e7e1");
+      ?.setAttribute("content", theme === "dark" ? "#0d0a12" : "#efe7da");
   }, [theme]);
   useEffect(() => {
     const media = window.matchMedia("(prefers-color-scheme: dark)");

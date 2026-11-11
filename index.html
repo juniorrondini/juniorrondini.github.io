@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#e9e7e1" />
+    <meta name="theme-color" content="#efe7da" />
     <meta
       name="description"
       content="Junior Rondini — desenvolvimento full stack, sistemas, interfaces e experimentos. Construindo sistemas. Explorando possibilidades."
@@ -51,6 +51,10 @@
           ? "dark"
           : "light";
       }
+      document.querySelector('meta[name="theme-color"]').content =
+        document.documentElement.dataset.theme === "dark"
+          ? "#0d0a12"
+          : "#efe7da";
     </script>
   </head>
   <body>
