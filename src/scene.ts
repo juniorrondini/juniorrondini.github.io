@@ -105,18 +105,6 @@ export function mountScene(
     bolt.position.set(x, y, 0.4);
     group.add(bolt);
   }
-  const cubeGeo = new THREE.BoxGeometry(0.38, 0.38, 0.38);
-  const cube = new THREE.Mesh(cubeGeo, accent);
-  cube.position.set(2.2, 2, 0.4);
-  cube.rotation.set(0.5, 0.5, 0.3);
-  group.add(cube);
-  geometries.push(cubeGeo);
-  const ringGeo = new THREE.TorusGeometry(0.25, 0.055, 12, 36);
-  const ring = new THREE.Mesh(ringGeo, accent);
-  ring.position.set(-2.5, -1, 0.3);
-  ring.rotation.set(0.6, 0.3, 0.3);
-  group.add(ring);
-  geometries.push(ringGeo);
   const key = new THREE.DirectionalLight(0xffffff, dark ? 6 : 4);
   key.position.set(-3, 4, 5);
   scene.add(key);

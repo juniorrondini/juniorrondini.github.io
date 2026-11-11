@@ -14,7 +14,7 @@ export const copy = {
     role: "FULL STACK DEVELOPER",
     discipline: "SISTEMAS / INTERFACES / EXPERIMENTOS",
     portfolio: "PORTFÓLIO",
-    selectedCount: "03 / SELECIONADOS",
+    selectedCount: "02 / SELECIONADOS",
     hello: "DIGA OLÁ ↗",
     heroLine: ["Construindo sistemas.", "Explorando possibilidades."],
     heroSide: "Entre a lógica e a curiosidade, um espaço para criar.",
@@ -28,8 +28,7 @@ export const copy = {
     workIntro:
       "Do primeiro componente ao sistema inteiro. Uma seleção de interfaces e ferramentas que desenvolvi — sozinho e em colaboração.",
     viewProject: "Explorar projeto",
-    conceptual: "COMPOSIÇÃO CONCEITUAL",
-    notScreenshot: "Ilustração autoral, não uma captura da aplicação.",
+    screenCapture: "CAPTURA DO SITE PUBLICADO",
     code: "Ver código",
     privateCode: "Código privado",
     visit: "Visitar site",
@@ -60,7 +59,6 @@ export const copy = {
         body: "Performance, integrações com IA, Rust, Go e Zig fazem parte do meu campo de estudo. E sempre cabe uma linguagem inesperada no caminho.",
       },
     ],
-    architecture: ["INTERFACE", "LÓGICA", "DADOS", "POSSIBILIDADES"],
     toolsLabel: "REPERTÓRIO TÉCNICO",
     toolsTitle: "As ferramentas mudam.\nA vontade de construir, não.",
     verified: "Usadas nos projetos apresentados",
@@ -71,10 +69,6 @@ export const copy = {
     labIntro:
       "Um espaço para testar ideias, entender ferramentas e seguir caminhos menos previsíveis. Experimentos reais, em diferentes estágios.",
     labLink: "Explorar repositório",
-    labLive: "BRINQUE COM A IDENTIDADE",
-    labInstruction: "Arraste o controle e desmonte a estrutura.",
-    labReset: "Recompor",
-    assembly: "Separação dos módulos",
     contactLabel: "(04 — PRÓXIMA CONEXÃO)",
     contactTitle: ["Vamos criar", "algo", "extraordinário?"],
     contactIntro:
@@ -90,26 +84,6 @@ export const copy = {
     sceneLabel:
       "Escultura tridimensional original das iniciais JR, formada por módulos interligados.",
     seo: "Junior Rondini — desenvolvimento full stack, sistemas, interfaces e experimentos. Construindo sistemas. Explorando possibilidades.",
-    art: {
-      ecosystem: "Um ecossistema conectado.",
-      portal: "PORTAL DIGITAL",
-      news: "Conteúdo",
-      client: "Área do cliente",
-      license: "Licenças",
-      nutrition: "SAÚDE ALIMENTAR",
-      healthy: "Cuidado que começa\nà mesa.",
-      services: "Nutrição & bem-estar",
-      review: "Serviços · Avaliações",
-      resume: "CURRÍCULO-FÁCIL",
-      story: "Sua história.\nSeu próximo passo.",
-      templates: "03 modelos · Exportação PDF",
-      document: "Experiência",
-      education: "Formação",
-      skills: "Habilidades",
-      connected: "SISTEMAS CONECTADOS.",
-      nature: "NATUREZA EM INTERFACE.",
-      tool: "FERRAMENTA REACT",
-    },
     toolNames: [
       "Frontend",
       "Backend & Dados",
@@ -130,7 +104,7 @@ export const copy = {
     role: "FULL STACK DEVELOPER",
     discipline: "SYSTEMS / INTERFACES / EXPERIMENTS",
     portfolio: "PORTFOLIO",
-    selectedCount: "03 / SELECTED",
+    selectedCount: "02 / SELECTED",
     hello: "SAY HELLO ↗",
     heroLine: ["Building systems.", "Exploring possibilities."],
     heroSide: "Somewhere between logic and curiosity, a space to create.",
@@ -144,8 +118,7 @@ export const copy = {
     workIntro:
       "From a single component to the whole system. A selection of interfaces and tools I have built, independently and with others.",
     viewProject: "Explore project",
-    conceptual: "CONCEPTUAL COMPOSITION",
-    notScreenshot: "Original illustration, not an application screenshot.",
+    screenCapture: "LIVE WEBSITE CAPTURE",
     code: "View source",
     privateCode: "Private source",
     visit: "Visit website",
@@ -176,7 +149,6 @@ export const copy = {
         body: "Performance, AI integrations, Rust, Go and Zig are part of my ongoing studies. And there’s always room for an unexpected language along the way.",
       },
     ],
-    architecture: ["INTERFACE", "LOGIC", "DATA", "POSSIBILITIES"],
     toolsLabel: "TECHNICAL REPERTOIRE",
     toolsTitle: "The tools evolve.\nThe drive to build stays.",
     verified: "Used in the featured projects",
@@ -187,10 +159,6 @@ export const copy = {
     labIntro:
       "A space to test ideas, understand tools and take the less predictable path. Real experiments, at different stages.",
     labLink: "Explore repository",
-    labLive: "PLAY WITH THE IDENTITY",
-    labInstruction: "Move the slider to take the structure apart.",
-    labReset: "Reassemble",
-    assembly: "Module separation",
     contactLabel: "(04 — NEXT CONNECTION)",
     contactTitle: ["Let’s build", "something", "extraordinary."],
     contactIntro:
@@ -206,26 +174,6 @@ export const copy = {
     sceneLabel:
       "Original three-dimensional JR sculpture made of interconnected modules.",
     seo: "Junior Rondini — full stack development, systems, interfaces and experiments. Building systems. Exploring possibilities.",
-    art: {
-      ecosystem: "A connected ecosystem.",
-      portal: "DIGITAL PORTAL",
-      news: "Content",
-      client: "Client area",
-      license: "Licenses",
-      nutrition: "SAÚDE ALIMENTAR",
-      healthy: "Care begins\nat the table.",
-      services: "Nutrition & wellbeing",
-      review: "Services · Reviews",
-      resume: "CURRÍCULO-FÁCIL",
-      story: "Your story.\nYour next step.",
-      templates: "03 templates · PDF export",
-      document: "Experience",
-      education: "Education",
-      skills: "Skills",
-      connected: "SYSTEMS, CONNECTED.",
-      nature: "NATURE MEETS INTERFACE.",
-      tool: "REACT TOOL",
-    },
     toolNames: [
       "Frontend",
       "Backend & Data",
@@ -251,7 +199,14 @@ export type Project = {
   repo: string;
   private?: boolean;
   demo?: string;
-  art?: "genesys" | "nutrition" | "resume";
+  preview?: {
+    src: string;
+    smallSrc: string;
+    width: number;
+    height: number;
+    source: string;
+    alt: Localized;
+  };
   year?: string;
 };
 
@@ -260,7 +215,17 @@ export const projects: Project[] = [
     id: "genesys",
     number: "01",
     name: "Genesys Website",
-    art: "genesys",
+    preview: {
+      src: "/projects/genesys-desktop.webp",
+      smallSrc: "/projects/genesys-desktop-768.webp",
+      width: 1280,
+      height: 960,
+      source: "genesyssoft.com.br",
+      alt: l(
+        "Interface real do Genesys Website: página inicial azul com a marca Genesys, a frase Seu negócio. Em movimento. e o mascote branco e laranja.",
+        "Actual Genesys Website interface: blue homepage with the Genesys brand, the Portuguese headline Seu negócio. Em movimento. and the white and orange mascot.",
+      ),
+    },
     private: true,
     category: l("PLATAFORMA WEB / COLABORAÇÃO", "WEB PLATFORM / COLLABORATION"),
     description: l(
@@ -297,7 +262,17 @@ export const projects: Project[] = [
     id: "saude",
     number: "02",
     name: "Saúde Alimentar",
-    art: "nutrition",
+    preview: {
+      src: "/projects/saude-desktop.webp",
+      smallSrc: "/projects/saude-desktop-768.webp",
+      width: 1280,
+      height: 960,
+      source: "saudealimentar.vercel.app",
+      alt: l(
+        "Interface real do Saúde Alimentar: navegação verde, apresentação da profissional e serviços de consulta nutricional e acompanhamento mensal.",
+        "Actual Saúde Alimentar interface: green navigation, introduction to the nutrition professional and nutrition consultation and monthly support services.",
+      ),
+    },
     category: l("SAÚDE / EXPERIÊNCIA WEB", "HEALTH / WEB EXPERIENCE"),
     description: l(
       "Uma interface para apresentar serviços de nutrição e reunir avaliações.",
@@ -329,7 +304,6 @@ export const projects: Project[] = [
     id: "curriculum",
     number: "03",
     name: "Curriculum",
-    art: "resume",
     private: true,
     category: l("FERRAMENTA / PRODUTIVIDADE", "TOOL / PRODUCTIVITY"),
     description: l(
@@ -417,7 +391,6 @@ export const experiments = [
     id: "zentinel",
     n: "L.01",
     name: "Zentinel",
-    mark: "Z_",
     tags: "ZIG / SHA-256 / CLI",
     url: "https://github.com/juniorrondini/Zentinel",
     description: l(
@@ -429,7 +402,6 @@ export const experiments = [
     id: "esoteric",
     n: "L.02",
     name: "Esoteric Suite",
-    mark: "+[−]",
     tags: "PYTHON / BRAINFUCK / EXPERIMENTS",
     url: "https://github.com/juniorrondini/Esoteric-Suite",
     description: l(
@@ -441,7 +413,6 @@ export const experiments = [
     id: "infopc",
     n: "L.03",
     name: "InfoPC",
-    mark: ">_",
     tags: "BATCH / POWERSHELL / WINDOWS",
     url: "https://github.com/juniorrondini/infopc",
     description: l(

@@ -62,7 +62,7 @@ describe("Visitor journeys", () => {
   it("opens each project with truthful context, respects private sources and provides only confirmed demos", () => {
     render(<App />);
     for (const project of projects) {
-      const button = project.art
+      const button = project.preview
         ? screen.getByRole("button", {
             name: `${copy.pt.viewProject}: ${project.name}`,
           })
@@ -116,15 +116,17 @@ describe("Visitor journeys", () => {
     expect(document.body.style.overflow).toBe("");
   });
 
-  it("lets visitors disassemble and restore the identity experiment with a keyboard-compatible range", () => {
+  it("shows only captured project interfaces and links to real experiments", () => {
     render(<App />);
-    const slider = screen.getByRole("slider", {
-      name: copy.pt.assembly,
-    }) as HTMLInputElement;
-    fireEvent.change(slider, { target: { value: "80" } });
-    expect(slider.value).toBe("80");
-    fireEvent.click(screen.getByRole("button", { name: copy.pt.labReset }));
-    expect(slider.value).toBe("0");
+    const featured = projects.filter((project) => project.preview);
+    expect(screen.getAllByRole("img").length).toBe(1 + featured.length);
+    for (const project of featured) {
+      const image = screen.getByRole("img", { name: project.preview!.alt.pt });
+      expect(image.getAttribute("src")).toBe(project.preview!.src);
+      expect(image.getAttribute("srcset")).toContain(project.preview!.smallSrc);
+      expect(screen.getByText(project.preview!.source)).toBeTruthy();
+    }
+    expect(screen.queryByRole("slider")).toBeNull();
     for (const item of experiments)
       expect(
         screen

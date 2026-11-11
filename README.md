@@ -31,7 +31,7 @@ npm run preview
 | ----------------------------------- | --------------------------------------------------------------------- |
 | `src/content.ts`                    | Todos os textos PT/EN, dados dos projetos, links e tecnologias.       |
 | `src/App.tsx`                       | Seções, navegação, preferências, diálogos e animações de scroll.      |
-| `src/components/ProjectArtwork.tsx` | Capas conceituais originais, feitas com HTML/CSS.                     |
+| `src/components/ProjectPreview.tsx` | Capturas reais, responsivas e com texto alternativo.                  |
 | `src/components/Sculpture.tsx`      | Fallback SVG acessível e carregamento progressivo do 3D.              |
 | `src/scene.ts`                      | Geometria JR procedural, materiais, iluminação e ciclo de vida WebGL. |
 | `src/styles.css`                    | Direção visual, temas e layouts responsivos.                          |
@@ -39,7 +39,7 @@ npm run preview
 | `public/`                           | Favicon, imagem social, sitemap, robots e licenças das fontes.        |
 | `.github/workflows/deploy.yml`      | Verificações, build e publicação no GitHub Pages.                     |
 
-Para adicionar um trabalho, inclua um objeto em `projects`, com textos em ambos os idiomas, stack comprovada e URL do repositório. Use `private: true` para repositórios restritos e adicione `demo` somente após validar uma demonstração pública. `art` seleciona uma composição da galeria; trabalhos sem `art` entram no índice de estudos. Novos experimentos entram em `experiments`.
+Para adicionar um trabalho, inclua um objeto em `projects`, com textos em ambos os idiomas, stack comprovada e URL do repositório. Use `private: true` para repositórios restritos e adicione `demo` somente após validar uma demonstração pública. `preview` aponta para uma captura real em `public/projects/`, com dimensões, origem e texto alternativo PT/EN. Trabalhos sem captura verificada entram no índice de estudos. Não use imagens genéricas nem interfaces inventadas como substituição. Novos experimentos entram em `experiments`.
 
 Mantenha os identificadores das seções (`work`, `about`, `lab`, `contact`): são âncoras públicas. Os detalhes usam diálogos na própria página, evitando problemas de rotas e recarregamento no GitHub Pages.
 
@@ -50,7 +50,7 @@ Mantenha os identificadores das seções (`work`, `about`, `lab`, `contact`): s�
 - **Tipografia:** Big Shoulders Display, Manrope e Cormorant Garamond. Arquivos locais em WOFF2, `font-display: swap` e apenas o subconjunto latino necessário a PT/EN. Fontes sob SIL OFL; avisos preservados em `public/licenses/`.
 - CSS autoral foi escolhido para as composições e materiais, sem acrescentar um framework de estilos desnecessário.
 - PT é o idioma inicial. `jr-lang` e `jr-theme` guardam escolhas no localStorage; falhas de armazenamento não impedem o uso. O tema acompanha o sistema enquanto não houver escolha explícita.
-- As ilustrações dos projetos são **composições conceituais**, identificadas como tal. Não são screenshots das aplicações e não demonstram funcionalidades adicionais.
+- A galeria usa **capturas reais dos sites publicados**, preservando seus designs. Genesys e Saúde Alimentar aparecem com suas interfaces públicas. Curriculum permanece no índice de texto, sem capa fictícia. Fontes e critérios estão em `public/projects/README.md` e `AGENTS.md`.
 
 ## 3D, movimento e acessibilidade
 
@@ -58,7 +58,7 @@ O texto e o SVG aparecem antes do WebGL. Three.js é carregado em um chunk separ
 
 O renderer usa resolução limitada, observa o tamanho/visibilidade da área e **não mantém um loop contínuo em repouso**. Renderiza durante a interpolação de uma interação, interrompe fora de vista e descarta geometrias, materiais, ambiente e contexto ao desmontar. O mobile usa a composição vetorial original.
 
-GSAP respeita `prefers-reduced-motion`; não há scroll hijacking, cursor obrigatório ou tela de carregamento bloqueante. Menu e detalhes usam `<dialog>` nativo, com Escape, foco contido e retorno de foco ao acionador. Inclui link para pular ao conteúdo, foco visível, navegação por âncoras e controles sem dependência de hover. O laboratório aceita teclado pelo controle range nativo.
+GSAP respeita `prefers-reduced-motion`; não há scroll hijacking, cursor obrigatório ou tela de carregamento bloqueante. Menu e detalhes usam `<dialog>` nativo, com Escape, foco contido e retorno de foco ao acionador. Inclui link para pular ao conteúdo, foco visível, navegação por âncoras e controles sem dependência de hover. O laboratório é um índice editorial dos experimentos reais, sem figuras decorativas ou experimentos fictícios.
 
 ## Publicar
 
@@ -84,8 +84,8 @@ O portfólio não replica fontes, modelos, símbolos ou assets de Clay Boan. A r
 
 ## Validação
 
-Os testes automatizados verificam idioma, persistência de preferências, detalhes e links dos projetos, repositórios privados, demos confirmadas, navegação móvel, cancelamento de diálogos, retorno de foco, interação do laboratório, falhas de armazenamento e fallback/disposição da cena 3D.
+Os testes automatizados verificam idioma, persistência de preferências, detalhes e links dos projetos, repositórios privados, demos confirmadas, navegação móvel, cancelamento de diálogos, retorno de foco, capturas reais e links do laboratório, falhas de armazenamento e fallback/disposição da cena 3D.
 
-Testes em JSDOM não certificam layout, renderização GPU ou desempenho em dispositivos reais. Nesta sessão, a inspeção do navegador ficou indisponível e a tentativa de controle foi interrompida por Escape. A imagem social foi renderizada e inspecionada como arquivo. Permanecem recomendadas revisões visuais em desktop, tablet e telefone, nos dois temas e idiomas, com movimento normal/reduzido e sem WebGL.
+Testes em JSDOM não certificam layout, renderização GPU ou desempenho em dispositivos reais. As capturas dos projetos foram obtidas dos sites públicos via mShots e inspecionadas como arquivos. O controle interativo do Chrome não pôde continuar porque a ferramenta não identificou a URL da janela com confiança; não houve validação interativa no navegador nesta revisão. Permanecem recomendadas revisões visuais em desktop, tablet e telefone, nos dois temas e idiomas, com movimento normal/reduzido e sem WebGL.
 
-A pasta local `.research/` contém apenas material de análise e ferramentas locais; está ignorada pelo Git. Seu conteúdo e os fontes dos repositórios privados **não integram a publicação**.
+A pasta local `.research/` contém apenas material de análise e ferramentas locais; está ignorada pelo Git. Seu conteúdo e o código-fonte dos repositórios privados **não integram a publicação**.

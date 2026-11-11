@@ -33,4 +33,4 @@ Frontend, Node/HTTP, Python, Firebase/Firestore e ferramentas de build/automaç�
 
 ## Imagens
 
-Os três trabalhos selecionados usam composições HTML/CSS autorais, com rótulo explícito de conceito. O JR é gerado por SVG e geometria Three.js próprias. Favicon e arte social também são originais. Nenhuma foto pessoal, mascote, licença, fonte de marca ou screenshot privado foi republicado.
+Genesys e Saúde Alimentar usam capturas reais dos sites públicos, verificadas visualmente e convertidas para WebP sem recoloração ou reconstrução da interface. As imagens incluem os elementos efetivamente publicados, como o mascote do Genesys e a apresentação profissional do Saúde Alimentar. Origem, dimensões e data constam em `public/projects/README.md`. Curriculum permanece no índice textual até existir uma captura verificada. Foram removidas as capas conceituais anteriores, órbitas inventadas, cubos flutuantes, asteriscos decorativos e o laboratório de polígonos. O JR é uma identidade tipográfica própria. Nenhum código ou screenshot de área privada foi republicado.

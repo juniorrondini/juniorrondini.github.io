@@ -1,18 +1,12 @@
-﻿import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowDownRight,
   ArrowUp,
   ArrowUpRight,
-  Asterisk,
-  Check,
-  Github,
-  Linkedin,
   LockKeyhole,
   Menu,
   Moon,
-  Plus,
-  RotateCcw,
   Sun,
   X,
 } from "lucide-react";
@@ -21,7 +15,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { copy, experiments, projects, toolGroups } from "./content";
 import type { Copy, Language, Project, Theme } from "./content";
 import Sculpture from "./components/Sculpture";
-import { ProjectArtwork } from "./components/ProjectArtwork";
+import { ProjectPreview } from "./components/ProjectPreview";
 
 gsap.registerPlugin(ScrollTrigger);
 const anchors = ["work", "about", "lab", "contact"];
@@ -91,16 +85,6 @@ function useMotion(root: React.RefObject<HTMLDivElement | null>) {
             start: "top top",
             end: "bottom top",
             scrub: 0.7,
-          },
-        });
-        gsap.to(".contact-asterisk", {
-          rotation: 150,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".contact",
-            start: "top bottom",
-            end: "bottom bottom",
-            scrub: 1,
           },
         });
         gsap.utils
@@ -177,10 +161,12 @@ function ProjectDialog({
           {project.category[language]}
         </span>
         <h2 id="project-dialog-title">{project.name}</h2>
-        {project.art && (
-          <div className="dialog-art">
-            <ProjectArtwork kind={project.art} t={t} />
-            <span className="art-disclaimer">{t.notScreenshot}</span>
+        {project.preview && (
+          <div className="dialog-preview">
+            <ProjectPreview project={project} language={language} />
+            <span className="preview-caption">
+              {project.preview.source} <span>{t.screenCapture}</span>
+            </span>
           </div>
         )}
         <div className="dialog-content">
@@ -190,10 +176,7 @@ function ProjectDialog({
             <h3 className="eyebrow">{t.features}</h3>
             <ul className="feature-list">
               {project.features.map((feature) => (
-                <li key={feature.en}>
-                  <Check size={15} aria-hidden="true" />
-                  {feature[language]}
-                </li>
+                <li key={feature.en}>{feature[language]}</li>
               ))}
             </ul>
           </div>
@@ -284,87 +267,6 @@ function MobileMenu({ t, close }: { t: Copy; close: () => void }) {
         jjrondinijj@gmail.com <ArrowUpRight size={18} />
       </a>
     </dialog>
-  );
-}
-
-function Architecture({ t }: { t: Copy }) {
-  return (
-    <div className="architecture" aria-hidden="true">
-      <div className="architecture-orbit" />
-      <div className="architecture-orbit orbit-offset" />
-      <div className="architecture-center">
-        <Monogram />
-        <span>CORE / 001</span>
-      </div>
-      {t.architecture.map((label, i) => (
-        <div key={label} className={`architecture-node node-${i}`}>
-          <i />
-          <span>{label}</span>
-          <small>0{i + 1}</small>
-        </div>
-      ))}
-      <span className="architecture-caption">
-        INPUT → PROCESS → POSSIBILITY
-      </span>
-    </div>
-  );
-}
-
-function IdentityLab({ t }: { t: Copy }) {
-  const [separation, setSeparation] = useState(20);
-  return (
-    <div className="identity-lab reveal">
-      <div className="identity-lab-heading">
-        <span className="eyebrow">{t.labLive}</span>
-        <span className="live-dot" />
-      </div>
-      <div className="module-stage" aria-hidden="true">
-        <svg viewBox="0 0 500 280">
-          <g transform="translate(250 140) rotate(-24)">
-            {[
-              [-80, -55],
-              [0, -55],
-              [80, -55],
-              [-80, 25],
-              [0, 25],
-              [80, 25],
-            ].map(([x, y], i) => (
-              <g
-                className="lab-module"
-                key={i}
-                transform={`translate(${x * (1 + separation / 100)},${y * (1 + separation / 60)})`}
-              >
-                <path d="M0 0l38-22 38 22-38 22z" fill="var(--accent)" />
-                <path d="M0 0v45l38 22V22z" fill="var(--module-side)" />
-                <path d="M38 22v45l38-22V0z" fill="var(--module-front)" />
-              </g>
-            ))}
-          </g>
-        </svg>
-        <span className="module-coord">JR / STRUCTURE—01</span>
-      </div>
-      <div className="lab-controls">
-        <label htmlFor="module-range">{t.labInstruction}</label>
-        <div className="range-row">
-          <input
-            id="module-range"
-            type="range"
-            min="0"
-            max="100"
-            value={separation}
-            onChange={(event) => setSeparation(Number(event.target.value))}
-            aria-label={t.assembly}
-          />
-          <button
-            className="icon-button"
-            onClick={() => setSeparation(0)}
-            aria-label={t.labReset}
-          >
-            <RotateCcw size={18} />
-          </button>
-        </div>
-      </div>
-    </div>
   );
 }
 
@@ -502,32 +404,20 @@ export default function App() {
             Junior Rondini — Full Stack Developer
           </h1>
           <div className="hero-topline eyebrow">
-            <span>
-              <i className="status-dot" /> {t.role}
-            </span>
+            <span>{t.role}</span>
             <span>{t.discipline}</span>
             <span>{t.portfolio} / V.01</span>
           </div>
           <div className="hero-type" aria-hidden="true">
             <div className="hero-name-first">
               <span className="hero-line">JUNIOR</span>
-              <span className="hero-star">✳</span>
             </div>
             <div className="hero-name-last">
-              <span className="hero-line">RONDINI</span>
-              <span className="hero-reg">/01</span>
+              <span className="hero-line">Rondini</span>
             </div>
           </div>
           <div className="hero-sculpture">
             <Sculpture key={theme} theme={theme} label={t.sceneLabel} />
-          </div>
-          <div className="sculpture-note eyebrow">
-            <span className="cross">+</span>
-            <span>
-              {t.sculpture}
-              <br />
-              <small>{t.sculptureHint}</small>
-            </span>
           </div>
           <div className="hero-meta">
             <div className="hero-statement">
@@ -569,24 +459,23 @@ export default function App() {
           </div>
           <div className="project-gallery">
             {projects
-              .filter((project) => project.art)
+              .filter((project) => project.preview)
               .map((project, i) => (
                 <article
                   className={`project project-${i + 1} reveal`}
                   key={project.id}
                 >
                   <button
-                    className="project-art-button"
+                    className="project-preview-button"
                     onClick={(event) => openProject(project, event)}
                     aria-label={`${t.viewProject}: ${project.name}`}
                   >
-                    <ProjectArtwork kind={project.art} t={t} />
-                    <span className="project-explore">
-                      <ArrowUpRight size={28} />
-                      <span>{t.viewProject}</span>
-                    </span>
-                    <span className="conceptual-label">{t.conceptual}</span>
+                    <ProjectPreview project={project} language={language} />
                   </button>
+                  <div className="preview-caption">
+                    <span>{project.preview?.source}</span>
+                    <span>{t.screenCapture}</span>
+                  </div>
                   <div className="project-info">
                     <span className="project-number">({project.number})</span>
                     <div>
@@ -616,7 +505,7 @@ export default function App() {
               <p>{t.archiveIntro}</p>
             </div>
             {projects
-              .filter((project) => !project.art)
+              .filter((project) => !project.preview)
               .map((project) => (
                 <button
                   className="archive-row reveal"
@@ -641,7 +530,6 @@ export default function App() {
         >
           <div className="section-topline reveal">
             <span className="eyebrow">{t.aboutLabel}</span>
-            <Asterisk size={24} />
           </div>
           <div className="about-grid">
             <div className="about-sticky">
@@ -653,7 +541,6 @@ export default function App() {
                 <em>{t.aboutTitle[2]}</em>
               </h2>
               <p className="about-intro reveal">{t.aboutIntro}</p>
-              <Architecture t={t} />
             </div>
             <div className="about-narrative">
               {t.aboutBlocks.map((block) => (
@@ -661,7 +548,6 @@ export default function App() {
                   <span className="eyebrow">/{block.n}</span>
                   <h3>{block.title}</h3>
                   <p>{block.body}</p>
-                  <Plus size={20} />
                 </article>
               ))}
             </div>
@@ -728,26 +614,20 @@ export default function App() {
                 rel="noreferrer"
                 aria-label={`${t.labLink}: ${experiment.name}`}
               >
-                <div className="experiment-top">
-                  <span className="eyebrow">{experiment.n}</span>
-                  <ArrowUpRight size={23} />
+                <span className="eyebrow experiment-id">{experiment.n}</span>
+                <div className="experiment-name">
+                  <h3>{experiment.name}</h3>
+                  <span className="eyebrow experiment-tags">
+                    {experiment.tags}
+                  </span>
                 </div>
-                <div className="experiment-mark" aria-hidden="true">
-                  {experiment.mark}
-                </div>
-                <span className="eyebrow experiment-tags">
-                  {experiment.tags}
-                </span>
-                <h3>{experiment.name}</h3>
                 <p>{experiment.description[language]}</p>
                 <span className="experiment-link">
-                  {t.labLink}
-                  <ArrowUpRight size={16} />
+                  <ArrowUpRight size={24} />
                 </span>
               </a>
             ))}
           </div>
-          <IdentityLab t={t} />
         </section>
 
         <section
@@ -764,9 +644,6 @@ export default function App() {
               {t.contactTitle.map((line, i) => (
                 <span key={line} className={i === 1 ? "contact-middle" : ""}>
                   {line}
-                  {i === 1 && (
-                    <Asterisk className="contact-asterisk" strokeWidth={1.2} />
-                  )}
                 </span>
               ))}
             </h2>
@@ -790,7 +667,6 @@ export default function App() {
               target="_blank"
               rel="noreferrer"
             >
-              <Github size={19} />
               GitHub
               <ArrowUpRight size={17} />
             </a>
@@ -799,7 +675,6 @@ export default function App() {
               target="_blank"
               rel="noreferrer"
             >
-              <Linkedin size={19} />
               LinkedIn
               <ArrowUpRight size={17} />
             </a>

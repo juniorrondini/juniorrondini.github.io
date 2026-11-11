@@ -61,17 +61,6 @@ function Fallback() {
         <circle cx="72" cy="88" r="7" fill="var(--accent)" />
         <circle cx="288" cy="88" r="7" fill="var(--accent)" />
       </g>
-      <path d="M500 70l24-15 24 15v28l-24 15-24-15z" fill="var(--accent)" />
-      <ellipse
-        cx="102"
-        cy="389"
-        rx="30"
-        ry="12"
-        stroke="var(--accent)"
-        strokeWidth="9"
-        fill="none"
-        transform="rotate(-30 102 389)"
-      />
     </svg>
   );
 }
