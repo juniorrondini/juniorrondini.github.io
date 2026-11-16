@@ -36,7 +36,7 @@ describe("Visitor journeys", () => {
     fireEvent.click(screen.getByRole("button", { name: "Switch to English" }));
     expect(document.documentElement.lang).toBe("en");
     expect(localStorage.getItem("jr-lang")).toBe("en");
-    expect(screen.getByText("Ideas taking")).toBeTruthy();
+    expect(screen.getByText("Selected")).toBeTruthy();
     expect(screen.getByText(copy.en.aboutIntro)).toBeTruthy();
     fireEvent.click(
       screen.getByRole("button", { name: "Explore project: Genesys Website" }),
@@ -124,7 +124,7 @@ describe("Visitor journeys", () => {
     expect(document.body.style.overflow).toBe("");
     fireEvent.click(screen.getByRole("button", { name: copy.pt.menu }));
     dialog = screen.getByRole("dialog");
-    fireEvent(dialog, new Event("close", { bubbles: false }));
+    fireEvent(dialog, new Event("cancel", { cancelable: true }));
     expect(screen.queryByRole("dialog")).toBeNull();
     expect(document.body.style.overflow).toBe("");
   });

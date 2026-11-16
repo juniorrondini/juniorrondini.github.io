@@ -59,9 +59,8 @@ export function WorkGallery({
     const x = (event.clientX - rect.left) / rect.width - 0.5;
     const y = (event.clientY - rect.top) / rect.height - 0.5;
     gsap.to(image.current, {
-      rotateY: x * 7,
-      rotateX: -y * 5,
-      y: -4,
+      x: x * 8,
+      y: y * 6 - 3,
       duration: 0.6,
       overwrite: true,
       ease: "power3.out",
@@ -69,8 +68,7 @@ export function WorkGallery({
   };
   const reset = () => {
     gsap.to(image.current, {
-      rotateX: 0,
-      rotateY: 0,
+      x: 0,
       y: 0,
       duration: 0.7,
       overwrite: true,

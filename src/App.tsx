@@ -63,7 +63,10 @@ function ProjectDialog({
     <dialog
       className="project-dialog"
       ref={ref}
-      onClose={onClose}
+      onCancel={(event) => {
+        event.preventDefault();
+        onClose();
+      }}
       aria-labelledby="project-dialog-title"
       onClick={(event) => {
         if (event.target === event.currentTarget) onClose();
@@ -160,7 +163,10 @@ function MobileMenu({ t, close }: { t: Copy; close: () => void }) {
       id="mobile-navigation"
       className="mobile-menu"
       ref={ref}
-      onClose={close}
+      onCancel={(event) => {
+        event.preventDefault();
+        close();
+      }}
       aria-label={t.menu}
     >
       <div className="mobile-menu-top">

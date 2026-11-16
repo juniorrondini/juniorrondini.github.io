@@ -73,7 +73,7 @@ export function useMotion(
           });
           gsap.utils.toArray<HTMLElement>(".reveal").forEach((target) => {
             gsap.from(target, {
-              y: 42,
+              y: 24,
               opacity: 0,
               duration: 0.85,
               ease: "power3.out",
@@ -127,17 +127,17 @@ export function useMotion(
               })
               .to(
                 ".hero-name-first",
-                { xPercent: -24, yPercent: -18, opacity: 0.3, ease: "none" },
+                { xPercent: -12, yPercent: -12, opacity: 0.55, ease: "none" },
                 0,
               )
               .to(
                 ".hero-name-last",
-                { xPercent: 16, yPercent: 16, opacity: 0.3, ease: "none" },
+                { xPercent: 10, yPercent: 10, opacity: 0.55, ease: "none" },
                 0,
               )
               .to(
                 ".hero-preview-position",
-                { xPercent: -35, scale: 1.26, rotation: -4, ease: "none" },
+                { xPercent: -14, scale: 1.08, ease: "none" },
                 0,
               );
             gsap.fromTo(

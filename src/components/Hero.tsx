@@ -103,34 +103,61 @@ export function Hero({
           ".hero-title-parallax",
         );
         const image = element.querySelector<HTMLElement>(".hero-preview-depth");
+        const letters = Array.from(
+          element.querySelectorAll<HTMLElement>(".hero-letter"),
+        );
+        const letterMotion = letters.map((letter) => ({
+          x: gsap.quickTo(letter, "x", { duration: 0.65, ease: "power3.out" }),
+          y: gsap.quickTo(letter, "y", { duration: 0.65, ease: "power3.out" }),
+        }));
+        let centers: { x: number; y: number }[] = [];
+        const measure = () => {
+          centers = letters.map((letter) => {
+            const rect = letter.getBoundingClientRect();
+            return {
+              x: rect.left + rect.width / 2,
+              y: rect.top + rect.height / 2,
+            };
+          });
+        };
         const move = (event: PointerEvent) => {
+          if (!centers.length) measure();
           const rect = element.getBoundingClientRect();
           const x = (event.clientX - rect.left) / rect.width - 0.5;
           const y = (event.clientY - rect.top) / rect.height - 0.5;
           gsap.to(title, {
-            x: x * 35,
-            y: y * 20,
-            rotateY: x * 6,
+            x: x * 18,
+            y: y * 10,
             duration: 0.8,
             ease: "power3.out",
             overwrite: true,
           });
           gsap.to(image, {
-            x: x * -24,
-            y: y * -18,
-            rotateY: x * -8,
-            rotateX: y * 6,
+            x: x * -14,
+            y: y * -10,
             duration: 0.8,
             ease: "power3.out",
             overwrite: true,
           });
+          centers.forEach((center, index) => {
+            const dx = center.x - event.clientX;
+            const dy = center.y - event.clientY;
+            const distance = Math.hypot(dx, dy);
+            const influence = Math.max(0, 1 - distance / 240);
+            const direction = Math.max(distance, 1);
+            letterMotion[index].x((dx / direction) * influence * 18);
+            letterMotion[index].y((dy / direction) * influence * 18);
+          });
         };
         const leave = () => {
+          centers = [];
+          letterMotion.forEach(({ x, y }) => {
+            x(0);
+            y(0);
+          });
           gsap.to([title, image], {
             x: 0,
             y: 0,
-            rotateX: 0,
-            rotateY: 0,
             duration: 1,
             ease: "power3.out",
             overwrite: true,
@@ -138,11 +165,16 @@ export function Hero({
         };
         element.addEventListener("pointermove", move, { passive: true });
         element.addEventListener("pointerleave", leave);
+        const invalidateCenters = () => { centers = []; };
+        window.addEventListener("scroll", invalidateCenters, { passive: true });
+        window.addEventListener("resize", invalidateCenters);
         return () => {
           element.removeEventListener("pointermove", move);
           element.removeEventListener("pointerleave", leave);
-          gsap.killTweensOf([title, image]);
-          gsap.set([title, image], { clearProps: "transform" });
+          window.removeEventListener("scroll", invalidateCenters);
+          window.removeEventListener("resize", invalidateCenters);
+          gsap.killTweensOf([title, image, ...letters]);
+          gsap.set([title, image, ...letters], { clearProps: "transform" });
         };
       },
     );
@@ -181,6 +213,10 @@ export function Hero({
                 setHovered(false);
             }}
           >
+            <div className="hero-preview-meta eyebrow" aria-hidden="true">
+              <span>{t.inFocus}</span>
+              <span>0{active + 1} / 0{featured.length}</span>
+            </div>
             <button
               className="hero-preview-button"
               onClick={(event) => onOpen(project, event)}
@@ -195,12 +231,8 @@ export function Hero({
               </div>
             </button>
             <div className="hero-preview-caption">
-              <span>
-                {t.inFocus} / {project.name}
-              </span>
-              <span>
-                0{active + 1}—0{featured.length}
-              </span>
+              <span>{project.name}</span>
+              <span>{project.preview?.source}</span>
             </div>
           </div>
         </div>

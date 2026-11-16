@@ -142,6 +142,15 @@
 .hero-preview-depth {
   transform-style: preserve-3d;
 }
+.hero-preview-meta {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 0 10px;
+  color: var(--ink);
+  font-size: 9px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 10px;
+}
 .hero-preview-button {
   display: block;
   width: 100%;
@@ -151,7 +160,6 @@
 }
 .hero-preview-button > div {
   width: 100%;
-  box-shadow: 0 16px 38px rgba(20, 10, 30, 0.13);
 }
 .hero-preview-caption {
   display: flex;
@@ -162,6 +170,10 @@
   letter-spacing: 0.06em;
   color: var(--muted);
   text-transform: uppercase;
+}
+.hero-preview-caption span:first-child {
+  color: var(--ink);
+  font-weight: 700;
 }
 .hero-bottom {
   position: absolute;
@@ -290,7 +302,7 @@
 }
 .work-index > p {
   color: var(--muted);
-  font-size: 8px;
+  font-size: 10px;
   margin-bottom: 22px;
 }
 .work-index-item {
@@ -409,7 +421,7 @@
   margin: 10px 0 9px;
 }
 .work-project-copy > p {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.7;
   color: var(--muted);
   max-width: 370px;
@@ -487,13 +499,13 @@
   letter-spacing: 0.07em;
 }
 .experiment p {
-  font-size: 11px;
+  font-size: 13px;
   line-height: 1.8;
   color: var(--muted);
   max-width: 370px;
 }
 .experiment-link {
-  font-size: 9px;
+  font-size: 10px;
   line-height: 1.6;
   text-align: right;
   text-decoration: underline;
@@ -503,6 +515,72 @@
 .experiment:focus-visible h3 {
   color: var(--accent-text);
   transform: translateX(8px);
+}
+
+/* Each section has its own cadence, while the index remains the navigation. */
+.about .display-heading {
+  font-size: clamp(65px, 6.2vw, 100px);
+}
+.about-intro {
+  font-size: 16px;
+  line-height: 1.65;
+}
+.about-narrative {
+  padding-top: 0;
+}
+.narrative-block {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  column-gap: 20px;
+  padding: 26px 0 35px;
+  margin-bottom: 0;
+}
+.narrative-block > .eyebrow {
+  grid-row: span 2;
+  padding-top: 6px;
+}
+.narrative-block h3 {
+  font-size: clamp(25px, 2.2vw, 34px);
+  margin: 0 0 15px;
+}
+.narrative-block p {
+  font-size: 14px;
+  max-width: 430px;
+}
+.lab .display-heading em {
+  display: block;
+  margin-top: 0.2em;
+  font-family: "Manrope Variable", sans-serif;
+  font-size: 0.5em;
+  font-style: normal;
+  font-weight: 450;
+  letter-spacing: -0.055em;
+  line-height: 1.1;
+  color: var(--accent-text);
+}
+.contact-main {
+  display: grid;
+  grid-template-columns: 1.35fr 0.65fr;
+  align-items: end;
+  gap: 8%;
+  padding-bottom: 85px;
+}
+.contact-heading {
+  font-size: clamp(82px, 10vw, 156px);
+  line-height: 0.9;
+}
+.contact-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 38px;
+  margin: 0 0 8px;
+}
+.contact-bottom > p {
+  font-size: 14px;
+}
+.contact-email > span {
+  font-size: clamp(18px, 1.8vw, 26px);
 }
 
 @media (min-width: 1700px) {
@@ -617,7 +695,7 @@
   }
   .hero-name-last {
     margin-left: 10%;
-    margin-top: calc(14svh + 15vw + 10px);
+    margin-top: calc(14svh + 15vw + 34px);
     font-size: 0.85em;
     line-height: 0.98;
   }
@@ -631,6 +709,11 @@
     font-size: 8px;
     gap: 8px;
     margin-top: 7px;
+  }
+  .hero-preview-meta {
+    padding-bottom: 7px;
+    margin-bottom: 7px;
+    font-size: 8px;
   }
   .hero-bottom {
     left: 6vw;
@@ -752,7 +835,7 @@
     font-size: 25px;
   }
   .work-project-copy > p {
-    font-size: 11px;
+    font-size: 13px;
   }
   .preview-caption {
     font-size: 7px;
@@ -783,7 +866,7 @@
   }
   .experiment p {
     grid-column: 2;
-    font-size: 10px;
+    font-size: 12px;
   }
   .experiment-link {
     grid-column: 2;
@@ -801,6 +884,38 @@
   }
   .dialog-bar .text-control {
     font-size: 10px;
+  }
+  .about .display-heading {
+    font-size: clamp(64px, 12.5vw, 92px);
+  }
+  .about-intro {
+    font-size: 14px;
+  }
+  .narrative-block {
+    grid-template-columns: 32px 1fr;
+    gap: 0 12px;
+    padding: 22px 0 30px;
+  }
+  .narrative-block h3 {
+    font-size: 27px;
+    margin: 0 0 12px;
+  }
+  .narrative-block p {
+    font-size: 13px;
+  }
+  .contact-main {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding-bottom: 45px;
+  }
+  .contact-heading {
+    font-size: clamp(68px, 14vw, 100px);
+  }
+  .contact-bottom {
+    margin: 0;
+  }
+  .contact-email > span {
+    font-size: 22px;
   }
 }
 @media (max-width: 380px) {
