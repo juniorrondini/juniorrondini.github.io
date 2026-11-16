@@ -1,17 +1,15 @@
-/** A single, shared stem joins the hook of the J to the bowl and leg of the R. */
+/** An open loop and an interrupted diagonal form a drawn JR signature. */
 export function BrandMark({ className = "" }: { className?: string }) {
   return (
     <svg
       className={`monogram ${className}`}
-      viewBox="0 0 72 72"
+      viewBox="0 0 80 80"
       fill="currentColor"
       aria-hidden="true"
       focusable="false"
     >
-      <path
-        fillRule="evenodd"
-        d="M8 14h36c12 0 19 6 19 16 0 7-4 12-11 14l13 17H50L40 46h-3c0 10-6 16-17 16H8V50h10c5 0 7-3 7-8V26H8V14Zm29 11v10h7c5 0 7-2 7-5s-2-5-7-5h-7Z"
-      />
+      <path d="M9 19C24 6 50 4 63 16c14 13-1 32-22 33l23 18-15 3-24-22 5-10c14 5 31-3 28-13-3-10-29-10-46 3L9 19Z" />
+      <path d="m34 22 11 1-5 13-11-2 5-12Zm-6.5 21 9.5 3-7 16C24 77 9 72 5 62l8-8c3 8 7 8 10 0l4.5-11Z" />
     </svg>
   );
 }

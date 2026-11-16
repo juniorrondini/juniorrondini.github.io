@@ -51,6 +51,7 @@ React, TypeScript, Vite e GSAP/ScrollTrigger são a base. Os efeitos usam tipogr
 | `public/projects/README.md`         | Origem e critérios das capturas reais.                                |
 
 O desenho vetorial da marca também está em `public/brand-mark.svg`, com fundo transparente. O favicon em `public/favicon.svg` usa o mesmo traçado sobre fundo escuro; mantenha os três traçados sincronizados ao alterar a marca.
+O símbolo usa um laço aberto e uma haste diagonal interrompida, desenhados como uma assinatura JR. As versões PNG incluem a marca transparente em 640 px, favicon em 32 px e ícone de tela inicial em 180 px.
 
 Para adicionar um trabalho, inclua um objeto em `projects`, com textos PT/EN e stack comprovada. `preview` só deve apontar para uma captura verificada, com origem, dimensões e texto alternativo. Os projetos com captura entram no índice visual da hero e da galeria; os demais ficam no índice textual. Adicione `demo` apenas quando existir uma demonstração confirmada e `private: true` para repositórios restritos.
 
