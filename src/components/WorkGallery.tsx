@@ -86,7 +86,9 @@ export function WorkGallery({
             key={item.id}
             aria-label={`${t.chooseProject}: ${item.name}`}
             aria-pressed={active === index}
-            onPointerEnter={() => setActive(index)}
+            onPointerEnter={(event) => {
+              if (event.pointerType === "mouse") setActive(index);
+            }}
             onFocus={() => setActive(index)}
             onClick={() => setActive(index)}
           >

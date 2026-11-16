@@ -183,7 +183,7 @@ section[id] {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-top: 1px solid var(--line);
+  background: linear-gradient(var(--line), var(--line)) left top / 100% 1px no-repeat;
   padding-top: 20px;
   margin-bottom: 65px;
 }

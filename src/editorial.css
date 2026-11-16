@@ -1,6 +1,7 @@
 /* An image is a project, never a substitute for one. */
 .display-heading em {
   color: var(--accent-display);
+  display: inline-block;
 }
 .site-header {
   position: absolute;
@@ -146,16 +147,18 @@
   width: 100%;
   padding: 0;
   text-align: left;
+  outline-offset: 7px;
 }
 .hero-preview-button > div {
   width: 100%;
+  box-shadow: 0 16px 38px rgba(20, 10, 30, 0.13);
 }
 .hero-preview-caption {
   display: flex;
   justify-content: space-between;
   gap: 12px;
   margin-top: 10px;
-  font-size: 7px;
+  font-size: 9px;
   letter-spacing: 0.06em;
   color: var(--muted);
   text-transform: uppercase;
@@ -200,7 +203,7 @@
 }
 .hero-preview-controls button {
   padding: 5px 0;
-  font-size: 10px;
+  font-size: 11px;
   line-height: 1.5;
   color: var(--muted);
   text-align: left;
@@ -212,7 +215,7 @@
   text-decoration-thickness: 1px;
 }
 .hero-preview-controls .playback-control {
-  font-size: 8px;
+  font-size: 10px;
   padding: 12px 0;
 }
 .hero-work-link {
@@ -258,6 +261,7 @@
 }
 .work .section-topline {
   border: 0;
+  background: none;
   padding-top: 0;
   margin-bottom: 38px;
 }
@@ -330,6 +334,9 @@
   padding-left: 12px;
   color: var(--ink);
 }
+.work-index-item.is-selected > .eyebrow {
+  color: var(--accent-text);
+}
 .work-index-item.is-selected > span:last-child:after {
   transform: scaleX(1);
 }
@@ -381,6 +388,12 @@
   padding-top: 12px;
   text-decoration: underline;
   text-underline-offset: 4px;
+  transition: color 0.3s, text-underline-offset 0.3s;
+}
+.project-preview-button:hover .work-open-caption,
+.project-preview-button:focus-visible .work-open-caption {
+  color: var(--accent-text);
+  text-underline-offset: 7px;
 }
 .work-project-copy {
   margin-top: 24px;
@@ -466,6 +479,7 @@
   line-height: 1;
   letter-spacing: -0.035em;
   margin: 0 0 11px;
+  transition: color 0.3s, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .experiment-tags {
   font-size: 6px;
@@ -485,8 +499,10 @@
   text-decoration: underline;
   text-underline-offset: 4px;
 }
-.experiment:hover h3 {
+.experiment:hover h3,
+.experiment:focus-visible h3 {
   color: var(--accent-text);
+  transform: translateX(8px);
 }
 
 @media (min-width: 1700px) {
@@ -528,10 +544,10 @@
     gap: 14px;
   }
   .hero-preview-controls button {
-    font-size: 8px;
+    font-size: 10px;
   }
   .hero-preview-controls .playback-control {
-    font-size: 7px;
+    font-size: 9px;
   }
   .work-gallery {
     gap: 6%;
@@ -612,7 +628,7 @@
     max-width: 380px;
   }
   .hero-preview-caption {
-    font-size: 6px;
+    font-size: 8px;
     gap: 8px;
     margin-top: 7px;
   }
@@ -801,7 +817,7 @@
     font-size: 9px;
   }
   .hero-preview-caption {
-    font-size: 5px;
+    font-size: 7px;
   }
 }
 @media (prefers-reduced-motion: reduce) {

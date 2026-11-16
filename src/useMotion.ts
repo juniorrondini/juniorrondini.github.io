@@ -86,6 +86,34 @@ export function useMotion(
               clearProps: "all",
             });
           });
+          gsap.utils.toArray<HTMLElement>(".section-intro .display-heading em").forEach((target) => {
+            gsap.from(target, {
+              x: -24,
+              opacity: 0.35,
+              duration: 1.1,
+              ease: "power3.out",
+              scrollTrigger: {
+                trigger: target,
+                start: "top 90%",
+                once: true,
+                invalidateOnRefresh: true,
+              },
+              clearProps: "all",
+            });
+          });
+          gsap.utils.toArray<HTMLElement>(".about .section-topline, .lab .section-topline, .contact .section-topline").forEach((target) => {
+            gsap.from(target, {
+              backgroundSize: "0% 1px",
+              duration: 1.15,
+              ease: "power3.inOut",
+              scrollTrigger: {
+                trigger: target,
+                start: "top 90%",
+                once: true,
+              },
+              clearProps: "backgroundSize",
+            });
+          });
           if (match.conditions?.desktop) {
             gsap
               .timeline({
