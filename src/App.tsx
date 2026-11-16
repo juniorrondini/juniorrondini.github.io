@@ -5,6 +5,7 @@ import { Hero } from "./components/Hero";
 import { WorkGallery } from "./components/WorkGallery";
 import { useMotion } from "./useMotion";
 import { ProjectPreview } from "./components/ProjectPreview";
+import { BrandMark } from "./components/BrandMark";
 
 const anchors = ["work", "about", "lab", "contact"];
 
@@ -19,19 +20,6 @@ function stored<T extends string>(
   } catch {
     return fallback;
   }
-}
-
-function Monogram({ className = "" }: { className?: string }) {
-  return (
-    <svg
-      className={`monogram ${className}`}
-      viewBox="0 0 64 48"
-      fill="currentColor"
-      aria-hidden="true"
-    >
-      <path d="M1 3h25v26c0 12-6 17-17 17H1V34h7c4 0 6-2 6-6V15H1zm32 0h13c12 0 17 6 17 15 0 6-3 11-8 13l9 15H50L42 31v15H30V3zm9 12v7h4c4 0 5-1 5-4 0-2-1-3-5-3z" />
-    </svg>
-  );
 }
 
 function ProjectDialog({
@@ -170,7 +158,7 @@ function MobileMenu({ t, close }: { t: Copy; close: () => void }) {
       aria-label={t.menu}
     >
       <div className="mobile-menu-top">
-        <Monogram />
+        <BrandMark />
         <button className="text-control" onClick={close} aria-label={t.close}>
           {t.close}
         </button>
@@ -272,7 +260,7 @@ export default function App() {
       </a>
       <header className="site-header">
         <a className="brand" href="#top" aria-label="Junior Rondini">
-          <Monogram />
+          <BrandMark />
           <span>
             JUNIOR
             <br />
@@ -518,7 +506,7 @@ export default function App() {
       </main>
       <footer className="site-footer">
         <a href="#top" className="footer-brand" aria-label="Junior Rondini">
-          <Monogram />
+          <BrandMark />
           <span>
             JUNIOR RONDINI<small>{t.footerRole}</small>
           </span>

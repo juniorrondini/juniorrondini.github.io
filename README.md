@@ -43,11 +43,14 @@ React, TypeScript, Vite e GSAP/ScrollTrigger são a base. Os efeitos usam tipogr
 | `src/components/Hero.tsx`           | Prévias reais, controles, alternância e resposta ao cursor.           |
 | `src/components/WorkGallery.tsx`    | Seleção e apresentação compacta dos trabalhos.                        |
 | `src/components/ProjectPreview.tsx` | Imagens responsivas com texto alternativo.                            |
+| `src/components/BrandMark.tsx`      | Marca JR vetorial usada na navegação e no rodapé.                     |
 | `src/useMotion.ts`                  | Entrada tipográfica, coreografia de scroll e sincronização do layout. |
 | `src/editorial.css`                 | Hero, galeria e controles textuais.                                   |
 | `src/styles.css`                    | Temas, estilos globais e demais seções.                               |
 | `src/test/`                         | Jornadas de navegação, preferências, galeria e prévias.               |
 | `public/projects/README.md`         | Origem e critérios das capturas reais.                                |
+
+O desenho vetorial da marca também está em `public/brand-mark.svg`, com fundo transparente. O favicon em `public/favicon.svg` usa o mesmo traçado sobre fundo escuro; mantenha os três traçados sincronizados ao alterar a marca.
 
 Para adicionar um trabalho, inclua um objeto em `projects`, com textos PT/EN e stack comprovada. `preview` só deve apontar para uma captura verificada, com origem, dimensões e texto alternativo. Os projetos com captura entram no índice visual da hero e da galeria; os demais ficam no índice textual. Adicione `demo` apenas quando existir uma demonstração confirmada e `private: true` para repositórios restritos.
 

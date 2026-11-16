@@ -214,7 +214,7 @@ section[id] {
 }
 .monogram {
   width: 48px;
-  height: 37px;
+  height: 48px;
 }
 .text-link {
   display: inline-flex;
@@ -246,8 +246,8 @@ section[id] {
   gap: 12px;
 }
 .brand .monogram {
-  width: 38px;
-  height: 30px;
+  width: 42px;
+  height: 42px;
 }
 .brand > span {
   font-size: 9px;
@@ -595,8 +595,8 @@ section[id] {
   color: var(--ink);
 }
 .footer-brand .monogram {
-  width: 32px;
-  height: 26px;
+  width: 36px;
+  height: 36px;
 }
 .footer-brand > span {
   font-size: 9px;
@@ -809,8 +809,8 @@ dialog::backdrop {
     min-height: 74px;
   }
   .brand .monogram {
-    width: 34px;
-    height: 27px;
+    width: 38px;
+    height: 38px;
   }
   .brand > span {
     font-size: 8px;
