@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { copy, experiments, projects, toolGroups } from "./content";
+import { copy, experiments, profiles, projects, toolGroups } from "./content";
 import type { Copy, Language, Project, Theme } from "./content";
 import { Hero } from "./components/Hero";
 import { WorkGallery } from "./components/WorkGallery";
@@ -254,7 +254,7 @@ export default function App() {
   };
 
   return (
-    <div ref={root} className="site-shell">
+    <div ref={root} className="site-shell" id="top">
       <a className="skip-link" href="#main">
         {t.skip}
       </a>
@@ -270,7 +270,6 @@ export default function App() {
         <nav className="desktop-nav" aria-label={t.index}>
           {anchors.map((anchor, i) => (
             <a key={anchor} href={`#${anchor}`}>
-              <span className="nav-number">0{i + 1}</span>
               {t.nav[i]}
             </a>
           ))}
@@ -306,7 +305,7 @@ export default function App() {
           </button>
         </div>
       </header>
-      <main id="main">
+      <main id="main" tabIndex={-1}>
         <Hero language={language} t={t} onOpen={openProject} />
 
         <section
@@ -314,10 +313,6 @@ export default function App() {
           id="work"
           aria-labelledby="work-heading"
         >
-          <div className="section-topline reveal">
-            <span className="eyebrow">{t.workLabel}</span>
-            <span className="eyebrow">{t.selectedCount}</span>
-          </div>
           <div className="section-intro">
             <h2 id="work-heading" className="display-heading reveal">
               {t.workTitle[0]}
@@ -421,7 +416,6 @@ export default function App() {
         >
           <div className="section-topline reveal">
             <span className="eyebrow">{t.labLabel}</span>
-            <span className="eyebrow">{`{ EXPERIMENTAL }`}</span>
           </div>
           <div className="section-intro">
             <h2 id="lab-heading" className="display-heading reveal">
@@ -484,20 +478,11 @@ export default function App() {
             </div>
           </div>
           <div className="contact-socials">
-            <a
-              href="https://github.com/juniorrondini"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GitHub
-            </a>
-            <a
-              href="https://www.linkedin.com/in/juniorrondini"
-              target="_blank"
-              rel="noreferrer"
-            >
-              LinkedIn
-            </a>
+            {profiles.map(({ name, url }) => (
+              <a href={url} key={name} target="_blank" rel="noreferrer">
+                {name}
+              </a>
+            ))}
             <a href="#top" className="back-top">
               {t.top}
             </a>

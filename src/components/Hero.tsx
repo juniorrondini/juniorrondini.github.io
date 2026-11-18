@@ -1,20 +1,24 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { projects, type Copy, type Language, type Project } from "../content";
+import {
+  profiles,
+  projects,
+  type Copy,
+  type Language,
+  type Project,
+} from "../content";
 import { ProjectPreview } from "./ProjectPreview";
 
 const featured = projects.filter((project) => project.preview);
-type OpenProject = (
-  project: Project,
-  event: React.MouseEvent<HTMLButtonElement>,
-) => void;
 
 function Lettering({ word }: { word: string }) {
   return (
     <span className="hero-line">
       {[...word].map((letter, index) => (
         <span className="letter-mask" key={index}>
-          <span className="hero-letter">{letter}</span>
+          <span className="hero-letter">
+            <span className="hero-glyph">{letter}</span>
+          </span>
         </span>
       ))}
     </span>
@@ -28,31 +32,36 @@ export function Hero({
 }: {
   language: Language;
   t: Copy;
-  onOpen: OpenProject;
+  onOpen: (
+    project: Project,
+    event: React.MouseEvent<HTMLButtonElement>,
+  ) => void;
 }) {
   const stage = useRef<HTMLDivElement>(null);
-  const picture = useRef<HTMLDivElement>(null);
+  const preview = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [hovered, setHovered] = useState(false);
+  const [focused, setFocused] = useState(false);
+  const [hasSwitched, setHasSwitched] = useState(false);
   const project = featured[active];
 
   useEffect(() => {
-    const element = stage.current;
+    const element = preview.current;
     if (!element) return;
     let visible = true;
     let timer: ReturnType<typeof setInterval> | undefined;
     const media = window.matchMedia("(prefers-reduced-motion: reduce)");
     const update = () => {
       clearInterval(timer);
-      if (media.matches || paused || hovered) return;
+      if (
+        !visible || document.hidden || media.matches || paused || hovered || focused
+      )
+        return;
       timer = setInterval(() => {
-        if (
-          visible &&
-          !document.hidden &&
-          !document.querySelector("dialog[open]")
-        )
-          setActive((index) => (index + 1) % featured.length);
+        if (document.querySelector("dialog[open]")) return;
+        setHasSwitched(true);
+        setActive((index) => (index + 1) % featured.length);
       }, 5800);
     };
     const observer =
@@ -60,121 +69,89 @@ export function Hero({
         ? undefined
         : new IntersectionObserver(([entry]) => {
             visible = entry.isIntersecting;
+            update();
           });
     observer?.observe(element);
+    document.addEventListener("visibilitychange", update);
     media.addEventListener("change", update);
     update();
     return () => {
       clearInterval(timer);
       observer?.disconnect();
+      document.removeEventListener("visibilitychange", update);
       media.removeEventListener("change", update);
     };
-  }, [paused, hovered]);
-
-  useLayoutEffect(() => {
-    const media = gsap.matchMedia();
-    media.add("(prefers-reduced-motion: no-preference)", () => {
-      const context = gsap.context(() => {
-        gsap.fromTo(
-          picture.current,
-          { clipPath: "inset(0 100% 0 0)", x: 22 },
-          {
-            clipPath: "inset(0 0% 0 0)",
-            x: 0,
-            duration: 0.9,
-            ease: "expo.out",
-            clearProps: "all",
-          },
-        );
-      }, stage);
-      return () => context.revert();
-    });
-    return () => media.revert();
-  }, [active]);
+  }, [paused, hovered, focused]);
 
   useEffect(() => {
     const element = stage.current;
     if (!element) return;
     const media = gsap.matchMedia();
     media.add(
-      "(prefers-reduced-motion: no-preference) and (pointer: fine) and (min-width: 761px)",
+      "(prefers-reduced-motion: no-preference) and (hover: hover) and (pointer: fine) and (min-width: 761px)",
       () => {
-        const title = element.querySelector<HTMLElement>(
-          ".hero-title-parallax",
-        );
-        const image = element.querySelector<HTMLElement>(".hero-preview-depth");
-        const letters = Array.from(
-          element.querySelectorAll<HTMLElement>(".hero-letter"),
-        );
+        const title = element.querySelector(".hero-title-parallax");
+        const frame = element.querySelector(".hero-preview-depth");
+        const letters = Array.from(element.querySelectorAll(".hero-glyph"));
+        const glide = (target: Element | null, axis: "x" | "y") =>
+          gsap.quickTo(target, axis, { duration: 0.65, ease: "power3.out" });
+        const titleX = glide(title, "x");
+        const titleY = glide(title, "y");
+        const frameX = glide(frame, "x");
+        const frameY = glide(frame, "y");
         const letterMotion = letters.map((letter) => ({
-          x: gsap.quickTo(letter, "x", { duration: 0.65, ease: "power3.out" }),
-          y: gsap.quickTo(letter, "y", { duration: 0.65, ease: "power3.out" }),
+          y: glide(letter, "y"),
+          mask: letter.closest(".letter-mask")!,
         }));
         let centers: { x: number; y: number }[] = [];
-        const measure = () => {
-          centers = letters.map((letter) => {
-            const rect = letter.getBoundingClientRect();
-            return {
-              x: rect.left + rect.width / 2,
-              y: rect.top + rect.height / 2,
-            };
-          });
+        const invalidate = () => {
+          centers = [];
         };
         const move = (event: PointerEvent) => {
-          if (!centers.length) measure();
+          if (event.pointerType !== "mouse") return;
+          if (!centers.length) {
+            centers = letterMotion.map(({ mask }) => {
+              const rect = mask.getBoundingClientRect();
+              return {
+                x: rect.left + rect.width / 2,
+                y: rect.top + rect.height / 2,
+              };
+            });
+          }
           const rect = element.getBoundingClientRect();
           const x = (event.clientX - rect.left) / rect.width - 0.5;
           const y = (event.clientY - rect.top) / rect.height - 0.5;
-          gsap.to(title, {
-            x: x * 18,
-            y: y * 10,
-            duration: 0.8,
-            ease: "power3.out",
-            overwrite: true,
-          });
-          gsap.to(image, {
-            x: x * -14,
-            y: y * -10,
-            duration: 0.8,
-            ease: "power3.out",
-            overwrite: true,
-          });
+          titleX(x * 28);
+          titleY(y * 18);
+          frameX(x * -22);
+          frameY(y * -14);
           centers.forEach((center, index) => {
-            const dx = center.x - event.clientX;
-            const dy = center.y - event.clientY;
-            const distance = Math.hypot(dx, dy);
-            const influence = Math.max(0, 1 - distance / 240);
-            const direction = Math.max(distance, 1);
-            letterMotion[index].x((dx / direction) * influence * 18);
-            letterMotion[index].y((dy / direction) * influence * 18);
+            const distance = Math.hypot(
+              center.x - event.clientX,
+              center.y - event.clientY,
+            );
+            letterMotion[index].y(-26 * Math.max(0, 1 - distance / 180));
           });
         };
         const leave = () => {
-          centers = [];
-          letterMotion.forEach(({ x, y }) => {
-            x(0);
-            y(0);
-          });
-          gsap.to([title, image], {
-            x: 0,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-            overwrite: true,
-          });
+          invalidate();
+          titleX(0);
+          titleY(0);
+          frameX(0);
+          frameY(0);
+          letterMotion.forEach(({ y }) => y(0));
         };
         element.addEventListener("pointermove", move, { passive: true });
         element.addEventListener("pointerleave", leave);
-        const invalidateCenters = () => { centers = []; };
-        window.addEventListener("scroll", invalidateCenters, { passive: true });
-        window.addEventListener("resize", invalidateCenters);
+        window.addEventListener("scroll", invalidate, { passive: true });
+        window.addEventListener("resize", invalidate);
+        document.fonts?.addEventListener("loadingdone", invalidate);
         return () => {
           element.removeEventListener("pointermove", move);
           element.removeEventListener("pointerleave", leave);
-          window.removeEventListener("scroll", invalidateCenters);
-          window.removeEventListener("resize", invalidateCenters);
-          gsap.killTweensOf([title, image, ...letters]);
-          gsap.set([title, image, ...letters], { clearProps: "transform" });
+          window.removeEventListener("scroll", invalidate);
+          window.removeEventListener("resize", invalidate);
+          document.fonts?.removeEventListener("loadingdone", invalidate);
         };
       },
     );
@@ -182,78 +159,89 @@ export function Hero({
   }, []);
 
   return (
-    <section className="hero" id="top" aria-labelledby="hero-heading">
+    <section className="hero" aria-labelledby="hero-heading">
       <div className="hero-stage" ref={stage}>
-        <h1 id="hero-heading" className="sr-only">
-          Junior Rondini — Full Stack Developer
-        </h1>
-        <div className="hero-topline eyebrow">
-          <span>{t.role}</span>
-          <span>{t.discipline}</span>
-          <span>{t.portfolio}</span>
-        </div>
-        <div className="hero-title-parallax" aria-hidden="true">
-          <div className="hero-type">
-            <div className="hero-name-first">
-              <Lettering word="JUNIOR" />
-            </div>
-            <div className="hero-name-last">
-              <Lettering word="Rondini" />
+        <div className="hero-identity">
+          <p className="hero-role eyebrow">{t.role}</p>
+          <h1 id="hero-heading" className="hero-title-parallax">
+            <span className="sr-only">Junior Rondini</span>
+            <span className="hero-type" aria-hidden="true">
+              <span className="hero-name-first">
+                <Lettering word="JUNIOR" />
+              </span>
+              <span className="hero-name-last">
+                <Lettering word="Rondini" />
+              </span>
+            </span>
+          </h1>
+          <p className="hero-statement">
+            {t.heroLine[0]} <em>{t.heroLine[1]}</em>
+          </p>
+          <div className="hero-actions">
+            <a className="hero-work-link" href="#work">
+              {t.selected}
+            </a>
+            <div className="hero-profiles">
+              {profiles.map(({ name, url }) => (
+                <a key={name} href={url} target="_blank" rel="noreferrer">
+                  {name}
+                </a>
+              ))}
             </div>
           </div>
         </div>
-        <div className="hero-preview-position">
-          <div
-            className="hero-preview-depth"
-            onPointerEnter={() => setHovered(true)}
-            onPointerLeave={() => setHovered(false)}
-            onFocusCapture={() => setHovered(true)}
-            onBlurCapture={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget as Node))
-                setHovered(false);
-            }}
-          >
-            <div className="hero-preview-meta eyebrow" aria-hidden="true">
+        <div className="hero-preview-position" ref={preview}>
+          <div className="hero-preview-depth">
+            <div className="hero-preview-meta eyebrow">
               <span>{t.inFocus}</span>
-              <span>0{active + 1} / 0{featured.length}</span>
+              <span aria-hidden="true">
+                {project.number} / {String(featured.length).padStart(2, "0")}
+              </span>
             </div>
             <button
               className="hero-preview-button"
               onClick={(event) => onOpen(project, event)}
               aria-label={`${t.heroPreview}: ${project.name}`}
+              onPointerEnter={(event) => {
+                if (event.pointerType === "mouse") setHovered(true);
+              }}
+              onPointerLeave={() => setHovered(false)}
+              onFocus={() => setFocused(true)}
+              onBlur={() => setFocused(false)}
             >
-              <div ref={picture}>
-                <ProjectPreview
-                  project={project}
-                  language={language}
-                  sizes="(max-width: 760px) 62vw, 36vw"
-                />
-              </div>
+              <span className="hero-shot">
+                <span
+                  key={project.id}
+                  className={hasSwitched ? "hero-shot-swap" : undefined}
+                >
+                  <ProjectPreview
+                    project={project}
+                    language={language}
+                    sizes="(max-width: 760px) 86vw, (max-width: 1220px) 39vw, 480px"
+                    priority={!hasSwitched}
+                  />
+                </span>
+              </span>
+              <span className="hero-preview-caption">
+                <span>
+                  <strong>{project.name}</strong>
+                  <small>{project.preview?.source}</small>
+                </span>
+                <span className="hero-preview-action">{t.details}</span>
+              </span>
             </button>
-            <div className="hero-preview-caption">
-              <span>{project.name}</span>
-              <span>{project.preview?.source}</span>
-            </div>
-          </div>
-        </div>
-        <div className="hero-bottom">
-          <div className="hero-statement">
-            {t.heroLine.map((line) => (
-              <span key={line}>{line}</span>
-            ))}
-          </div>
-          <div
-            className="hero-preview-controls"
-            aria-label={t.previewControls}
-            role="group"
-          >
-            <div>
+            <div
+              className="hero-preview-controls"
+              aria-label={t.previewControls}
+              role="group"
+            >
               {featured.map((item, index) => (
                 <button
                   key={item.id}
                   aria-label={`${t.selectPreview}: ${item.name}`}
                   aria-pressed={active === index}
                   onClick={() => {
+                    if (active !== index) setHasSwitched(true);
                     setActive(index);
                     setPaused(true);
                   }}
@@ -261,22 +249,15 @@ export function Hero({
                   {item.name}
                 </button>
               ))}
+              <button
+                className="playback-control"
+                onClick={() => setPaused((value) => !value)}
+                aria-label={paused ? t.resumePreview : t.pausePreview}
+              >
+                {paused ? t.resume : t.pause}
+              </button>
             </div>
-            <button
-              className="playback-control"
-              onClick={() => setPaused(!paused)}
-              aria-label={paused ? t.resumePreview : t.pausePreview}
-            >
-              {paused ? t.resume : t.pause}
-            </button>
           </div>
-          <a className="hero-work-link" href="#work">
-            {t.selected}
-          </a>
-        </div>
-        <div className="hero-footer eyebrow">
-          <span>{t.heroSide}</span>
-          <a href="#work">{t.scroll}</a>
         </div>
       </div>
     </section>

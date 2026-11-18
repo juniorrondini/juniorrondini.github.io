@@ -4,5 +4,5 @@
 <text x="48" y="298" font-family="Arial,sans-serif" font-weight="900" font-size="220" letter-spacing="-15" fill="#f1eaf8">JUNIOR</text>
 <text x="295" y="473" font-family="Georgia,serif" font-style="italic" font-size="205" letter-spacing="-10" fill="#b993f7">Rondini</text>
 <path d="M62 529H1138" stroke="#f1eaf8" stroke-opacity=".23"/>
-<g font-family="Arial,sans-serif"><text x="62" y="568" font-size="16" fill="#f1eaf8">Construindo sistemas. Explorando possibilidades.</text><text x="1138" y="568" text-anchor="end" font-size="12" fill="#b3a7c0">juniorrondini.github.io</text></g>
+<g font-family="Arial,sans-serif"><text x="62" y="568" font-size="22" fill="#f1eaf8">Do clique ao sistema.</text><text x="1138" y="568" text-anchor="end" font-size="16" fill="#b3a7c0">juniorrondini.github.io</text></g>
 </svg>

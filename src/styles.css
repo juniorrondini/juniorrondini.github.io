@@ -61,7 +61,6 @@
 }
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 90px;
 }
 body {
   margin: 0;
@@ -137,9 +136,6 @@ em {
   font-family: var(--serif);
   font-weight: 500;
 }
-section[id] {
-  scroll-margin-top: 25px;
-}
 .site-shell {
   overflow: clip;
 }
@@ -153,6 +149,10 @@ section[id] {
   clip: rect(0, 0, 0, 0);
   white-space: nowrap;
   border: 0;
+}
+.reveal:focus-visible,
+.reveal:focus-within {
+  opacity: 1 !important;
 }
 .skip-link {
   position: fixed;
@@ -269,16 +269,11 @@ section[id] {
   align-items: center;
   position: relative;
 }
-.nav-number {
-  font-size: 8px;
-  opacity: 0.45;
-  align-self: start;
-}
 .desktop-nav a:after {
   content: "";
   position: absolute;
   bottom: -7px;
-  left: 18px;
+  left: 0;
   right: 0;
   height: 1px;
   background: var(--ink);
@@ -320,13 +315,6 @@ section[id] {
 }
 .menu-toggle {
   display: none;
-}
-.work {
-  padding-top: 75px;
-}
-.work .section-topline {
-  border: 0;
-  padding-top: 0;
 }
 .archive {
   margin-top: 100px;
@@ -801,9 +789,6 @@ dialog::backdrop {
   }
 }
 @media (max-width: 760px) {
-  html {
-    scroll-padding-top: 20px;
-  }
   .site-header {
     padding: 12px 6vw;
     min-height: 74px;
@@ -856,12 +841,6 @@ dialog::backdrop {
   }
   .display-heading {
     font-size: clamp(67px, 13vw, 98px);
-  }
-  .work {
-    padding-top: 50px;
-  }
-  .work .section-topline {
-    margin-bottom: 40px;
   }
   .archive {
     margin-top: 65px;

@@ -24,20 +24,20 @@ export function useMotion(
     media.add(
       {
         motion: "(prefers-reduced-motion: no-preference)",
-        desktop: "(min-width: 761px)",
+        desktop: "(min-width: 761px) and (min-height: 650px)",
       },
       (match) => {
         if (!match.conditions?.motion) return;
         const context = gsap.context(() => {
-          const entrance = gsap.timeline({ defaults: { ease: "expo.out" } });
+          const entrance = gsap.timeline({ defaults: { ease: "power4.out" } });
           entrance
             .from(
               ".hero-name-first .hero-letter",
               {
-                yPercent: 130,
-                rotation: -7,
-                duration: 1.35,
-                stagger: 0.055,
+                yPercent: 116,
+                rotation: 8,
+                duration: 0.95,
+                stagger: 0.035,
                 clearProps: "all",
               },
               0,
@@ -45,32 +45,28 @@ export function useMotion(
             .from(
               ".hero-name-last .hero-letter",
               {
-                yPercent: 125,
-                rotation: 7,
-                duration: 1.35,
+                yPercent: 112,
+                rotation: -6,
+                duration: 1,
                 stagger: 0.045,
                 clearProps: "all",
               },
-              0.2,
+              0.12,
             )
             .from(
-              ".hero-preview-button",
+              ".hero-shot",
               {
                 clipPath: "inset(0 100% 0 0)",
-                xPercent: 22,
-                duration: 1.3,
-                clearProps: "all",
+                duration: 1.1,
+                clearProps: "clipPath",
               },
-              0.45,
+              0.16,
+            )
+            .from(
+              ".hero-role, .hero-statement",
+              { y: 12, opacity: 0, duration: 0.6, stagger: 0.12, clearProps: "all" },
+              0.18,
             );
-          gsap.from(".hero-bottom, .hero-topline, .hero-footer", {
-            y: 18,
-            opacity: 0,
-            duration: 0.8,
-            delay: 0.8,
-            stagger: 0.08,
-            clearProps: "all",
-          });
           gsap.utils.toArray<HTMLElement>(".reveal").forEach((target) => {
             gsap.from(target, {
               y: 24,
@@ -121,23 +117,23 @@ export function useMotion(
                   trigger: ".hero",
                   start: "top top",
                   end: "bottom bottom",
-                  scrub: 0.8,
+                  scrub: 0.45,
                   invalidateOnRefresh: true,
                 },
               })
               .to(
                 ".hero-name-first",
-                { xPercent: -12, yPercent: -12, opacity: 0.55, ease: "none" },
+                { xPercent: -7, yPercent: -19, opacity: 0.64, ease: "none" },
                 0,
               )
               .to(
                 ".hero-name-last",
-                { xPercent: 10, yPercent: 10, opacity: 0.55, ease: "none" },
+                { xPercent: 8, yPercent: -12, opacity: 0.76, ease: "none" },
                 0,
               )
               .to(
-                ".hero-preview-position",
-                { xPercent: -14, scale: 1.08, ease: "none" },
+                ".hero-shot",
+                { yPercent: -3, scale: 1.035, ease: "none" },
                 0,
               );
             gsap.fromTo(

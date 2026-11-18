@@ -3,6 +3,11 @@ export type Theme = "light" | "dark";
 export type Localized = { pt: string; en: string };
 export const l = (pt: string, en: string): Localized => ({ pt, en });
 
+export const profiles = [
+  { name: "GitHub", url: "https://github.com/juniorrondini" },
+  { name: "LinkedIn", url: "https://www.linkedin.com/in/juniorrondini" },
+];
+
 export const copy = {
   pt: {
     skip: "Pular para o conteúdo",
@@ -25,21 +30,14 @@ export const copy = {
     galleryLabel: "Índice dos trabalhos",
     galleryInstruction: "ESCOLHA UM TRABALHO",
     chooseProject: "Selecionar projeto",
-    workIndexNote: "Interfaces e ferramentas em contexto.",
-    role: "FULL STACK DEVELOPER",
-    discipline: "SISTEMAS / INTERFACES / EXPERIMENTOS",
-    portfolio: "PORTFÓLIO",
-    selectedCount: "02 / SELECIONADOS",
+    role: "Desenvolvedor full stack",
     hello: "DIGA OLÁ",
-    heroLine: ["Interfaces, sistemas", "e experimentos."],
-    heroSide: "Projetos independentes e em colaboração.",
-    selected: "EXPLORAR PROJETOS",
-    scroll: "CONTINUE EXPLORANDO",
+    heroLine: ["Do clique", "ao sistema."],
+    selected: "Ver projetos",
     index: "ÍNDICE",
-    workLabel: "(01 — TRABALHOS SELECIONADOS)",
     workTitle: ["Projetos", "selecionados."],
     workIntro:
-      "Interfaces e ferramentas desenvolvidas por mim e em colaboração. Selecione um projeto para ver o contexto, as tecnologias e os links.",
+      "Do portal de uma empresa de software ao site de um serviço de nutrição. Explore o contexto, as tecnologias e as páginas publicadas.",
     viewProject: "Explorar projeto",
     screenCapture: "CAPTURA DO SITE PUBLICADO",
     code: "Ver código",
@@ -126,21 +124,14 @@ export const copy = {
     galleryLabel: "Work index",
     galleryInstruction: "CHOOSE A PROJECT",
     chooseProject: "Select project",
-    workIndexNote: "Interfaces and tools in context.",
-    role: "FULL STACK DEVELOPER",
-    discipline: "SYSTEMS / INTERFACES / EXPERIMENTS",
-    portfolio: "PORTFOLIO",
-    selectedCount: "02 / SELECTED",
+    role: "Full stack developer",
     hello: "SAY HELLO",
-    heroLine: ["Interfaces, systems", "and experiments."],
-    heroSide: "Independent and collaborative projects.",
-    selected: "EXPLORE THE WORK",
-    scroll: "KEEP EXPLORING",
+    heroLine: ["From the click", "to the system."],
+    selected: "View projects",
     index: "INDEX",
-    workLabel: "(01 — SELECTED WORK)",
     workTitle: ["Selected", "projects."],
     workIntro:
-      "Interfaces and tools built independently and with others. Select a project for its context, technologies and links.",
+      "From a software company’s portal to a nutrition practice’s website. Explore the context, technologies and published sites.",
     viewProject: "Explore project",
     screenCapture: "LIVE WEBSITE CAPTURE",
     code: "View source",

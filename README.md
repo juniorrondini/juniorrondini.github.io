@@ -27,8 +27,8 @@ O build verifica os tipos e produz uma aplicação estática em `dist/`.
 
 ## Experiência
 
-- **Hero:** entrada letra por letra, movimento da tipografia e da prévia associado à rolagem no desktop, profundidade em resposta ao cursor e alternância entre interfaces reais. Os controles permitem selecionar e pausar as prévias. A alternância para fora da tela, em aba inativa, durante a leitura de um diálogo e quando o sistema solicita movimento reduzido.
-- **Projetos:** índice de nomes com seleção por cursor, foco ou clique. Uma única prévia compacta mostra o trabalho selecionado; a troca revela imagem e texto com uma transição. A imagem abre os detalhes, com contexto, tecnologias e links verificados.
+- **Abertura:** nome com entrada letra por letra, tipografia e prévia reagindo ao cursor e à rolagem no desktop, e links para GitHub e LinkedIn. As capturas alternam com uma transição e podem ser selecionadas ou pausadas. A alternância é suspensa se a prévia sai da tela, a aba fica inativa, um diálogo abre ou o sistema solicita movimento reduzido.
+- **Projetos:** índice com seleção por cursor, foco ou clique. A seleção mostra uma prévia compacta ao lado do contexto e das tecnologias. A prévia abre os detalhes com links verificados.
 - **Sobre e laboratório:** narrativa e índice dos experimentos reais, com hierarquia tipográfica e revelações por rolagem.
 - **Contato:** encerramento tipográfico, links reais e navegação textual. Não há setas, ícones genéricos ou esculturas geométricas.
 
