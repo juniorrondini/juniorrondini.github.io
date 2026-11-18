@@ -3,10 +3,48 @@
   --masthead-height: 76px;
   --work-bg: #e9ddef;
   --work-title: #65477e;
+  --intro-bg: #dcc9ec;
 }
 :root[data-theme="dark"] {
   --work-bg: #1c1229;
   --work-title: #c3a0fa;
+  --intro-bg: #b993f7;
+}
+.site-intro {
+  position: fixed;
+  z-index: 90;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  visibility: hidden;
+  background: var(--intro-bg);
+  color: var(--accent-ink);
+}
+.intro-signature {
+  width: clamp(82px, 12vw, 156px);
+  height: auto;
+}
+.intro-progress {
+  position: absolute;
+  right: max(6vw, env(safe-area-inset-right));
+  bottom: max(6vh, env(safe-area-inset-bottom));
+  display: flex;
+  gap: 0.1em;
+  align-items: baseline;
+  font-family: var(--display);
+  font-size: clamp(70px, 12vw, 175px);
+  font-weight: 650;
+  line-height: 0.85;
+  font-variant-numeric: tabular-nums;
+}
+.intro-unit {
+  font-family: "Manrope Variable", sans-serif;
+  font-size: 0.28em;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-intro {
+    display: none;
+  }
 }
 .display-heading em {
   color: var(--accent-display);

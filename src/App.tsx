@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { copy, experiments, profiles, projects, toolGroups } from "./content";
 import type { Copy, Language, Project, Theme } from "./content";
 import { Hero } from "./components/Hero";
@@ -206,6 +206,12 @@ export default function App() {
   const t = copy[language];
   useMotion(root, language);
 
+  useLayoutEffect(() => {
+    const id = location.hash.slice(1);
+    if (anchors.includes(id) || id === "main")
+      document.getElementById(id)?.scrollIntoView({ behavior: "instant" });
+  }, []);
+
   useEffect(() => {
     document.documentElement.lang = language === "pt" ? "pt-BR" : "en";
     document
@@ -255,6 +261,13 @@ export default function App() {
 
   return (
     <div ref={root} className="site-shell" id="top">
+      <div className="site-intro" aria-hidden="true">
+        <BrandMark className="intro-signature" />
+        <div className="intro-progress">
+          <span className="intro-count">00</span>
+          <span className="intro-unit">%</span>
+        </div>
+      </div>
       <a className="skip-link" href="#main">
         {t.skip}
       </a>

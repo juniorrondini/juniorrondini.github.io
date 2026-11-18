@@ -1,8 +1,10 @@
 import { useLayoutEffect, type RefObject } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { playEntrance } from "./entrance";
 
 gsap.registerPlugin(ScrollTrigger);
+const motionQuery = "(prefers-reduced-motion: no-preference)";
 
 export function useMotion(
   root: RefObject<HTMLDivElement | null>,
@@ -21,52 +23,21 @@ export function useMotion(
       });
     };
     const media = gsap.matchMedia();
+    let playOnMount = window.matchMedia(motionQuery).matches;
+    media.add(motionQuery, () => {
+      if (!playOnMount) return;
+      playOnMount = false;
+      const context = gsap.context(() => playEntrance(element), element);
+      return () => context.revert();
+    });
     media.add(
       {
-        motion: "(prefers-reduced-motion: no-preference)",
+        motion: motionQuery,
         desktop: "(min-width: 761px) and (min-height: 650px)",
       },
       (match) => {
         if (!match.conditions?.motion) return;
         const context = gsap.context(() => {
-          const entrance = gsap.timeline({ defaults: { ease: "power4.out" } });
-          entrance
-            .from(
-              ".hero-name-first .hero-letter",
-              {
-                yPercent: 116,
-                rotation: 8,
-                duration: 0.95,
-                stagger: 0.035,
-                clearProps: "all",
-              },
-              0,
-            )
-            .from(
-              ".hero-name-last .hero-letter",
-              {
-                yPercent: 112,
-                rotation: -6,
-                duration: 1,
-                stagger: 0.045,
-                clearProps: "all",
-              },
-              0.12,
-            )
-            .from(
-              ".hero-shot",
-              {
-                clipPath: "inset(0 100% 0 0)",
-                duration: 1.1,
-                clearProps: "clipPath",
-              },
-              0.16,
-            )
-            .from(
-              ".hero-role, .hero-statement",
-              { y: 12, opacity: 0, duration: 0.6, stagger: 0.12, clearProps: "all" },
-              0.18,
-            );
           gsap.utils.toArray<HTMLElement>(".reveal").forEach((target) => {
             gsap.from(target, {
               y: 24,
