@@ -27,7 +27,7 @@ O build verifica os tipos e produz uma aplicação estática em `dist/`.
 
 ## Experiência
 
-- **Abertura:** na primeira visita da sessão, a marca JR e um contador acompanham o preparo das duas fontes do título e da primeira captura. A cortina libera a página em até 1,8 s e pode ser dispensada com uma interação. Links diretos para uma seção e a preferência por movimento reduzido pulam essa abertura. No desktop, nome e prévia reagem ao cursor e à rolagem. As capturas podem ser selecionadas ou pausadas. A alternância é suspensa se a prévia sai da tela, a aba fica inativa, um diálogo abre ou o sistema solicita movimento reduzido.
+- **Abertura:** na primeira visita da sessão, a marca JR e um contador acompanham o preparo das duas fontes do título e da primeira captura. A cortina leva cerca de 3,5 s para revelar a página e pode ser dispensada com uma interação. Links diretos para uma seção e a preferência por movimento reduzido pulam essa abertura. No desktop, nome e prévia reagem ao cursor e à rolagem. As capturas podem ser selecionadas ou pausadas. A alternância é suspensa se a prévia sai da tela, a aba fica inativa, um diálogo abre ou o sistema solicita movimento reduzido.
 - **Projetos:** índice com seleção por cursor, foco ou clique. A seleção mostra uma prévia compacta ao lado do contexto e das tecnologias. A prévia abre os detalhes com links verificados.
 - **Sobre e laboratório:** narrativa e índice dos experimentos reais, com hierarquia tipográfica e revelações por rolagem.
 - **Contato:** encerramento tipográfico, links reais e navegação textual. Não há setas, ícones genéricos ou esculturas geométricas.
